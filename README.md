@@ -61,3 +61,21 @@ Conceive, design and implement a software solution including hardware sensors, a
 ![alt text](https://i.imgur.com/k3BVJXA.png)
 
 
+# Team Members
+1. Amahdya Delkescamp (256523)
+
+2. Andrei Cioanca (266105)
+
+3. Claudiu Rediu (266129)
+
+4. Dominika Kubicz (266148)
+
+5. Flemming Vindelev (251398)
+
+6. Michal Ciebien (266908)
+
+7. Mihail Kanchev (266106)
+
+8. Nikita Roskovs (266900)
+
+9. Stefan Harabagiu (266116)
