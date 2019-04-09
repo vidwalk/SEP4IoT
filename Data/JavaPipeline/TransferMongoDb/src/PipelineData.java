@@ -21,7 +21,7 @@ import com.mongodb.client.MongoDatabase;
 
 public class PipelineData extends TimerTask {
 	private MongoDatabase databaseMG;
-	private Timestamp lastReading = new Timestamp(0);
+	private Timestamp lastReading ;
 	private boolean added = false;
 
 	@Override
@@ -49,7 +49,8 @@ public class PipelineData extends TimerTask {
 			ResultSet set = sta1.executeQuery(Sql1);
 			while (set.next())
 				lastReading = set.getTimestamp("lastReading");
-
+			if(lastReading == null)
+				lastReading =new Timestamp(0);
 			// Retrieving a collection
 			MongoCollection<Document> collection = databaseMG.getCollection("Climatizer");
 
