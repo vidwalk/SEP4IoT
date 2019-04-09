@@ -11,14 +11,17 @@ import java.util.TimerTask;
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+
+
 public class PipelineData extends TimerTask {
 	private MongoDatabase databaseMG;
-	private Timestamp lastReading;
+	private Timestamp lastReading = new Timestamp(0);
 	private boolean added = false;
 
 	@Override
@@ -28,7 +31,7 @@ public class PipelineData extends TimerTask {
 			// Creating the URI for the mongo db
 			// TODO Remove password
 			MongoClientURI uri = new MongoClientURI(
-					"mongodb+srv://groupZ1:groupZ1@iotzuperteam-no7vb.mongodb.net/ClimatizerDB?retryWrites=true");
+					"mongodb+srv://groupZ1:groupZ1@iotzuperteam-no7vb.mongodb.net/admin?retryWrites=true");
 
 			// Connecting to the mongo database
 			MongoClient mongoClient = new MongoClient(uri);
@@ -38,18 +41,17 @@ public class PipelineData extends TimerTask {
 			// This is to check if the jdbc SQL Driver is present
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection conn = DriverManager
-					.getConnection("jdbc:sqlserver://localhost:1433;user=sa;password=rootPassword?;database=tempdb");
+					.getConnection("jdbc:sqlserver://10.200.131.2:1433;user=groupZ1;password=groupZ1;database=climatizerDB");
 
 			// We need to retrieve the date of the latest reading
 			Statement sta1 = conn.createStatement();
-			String Sql1 = "(SELECT MAX(DateKey) as 'lastReading' FROM Reading)";
+			String Sql1 = "(SELECT MAX(Date) as 'lastReading' FROM Reading)";
 			ResultSet set = sta1.executeQuery(Sql1);
 			while (set.next())
 				lastReading = set.getTimestamp("lastReading");
 
 			// Retrieving a collection
 			MongoCollection<Document> collection = databaseMG.getCollection("Climatizer");
-			System.out.println("Collection sampleCollection selected successfully");
 
 			// Getting the iterable object
 			FindIterable<Document> iterDoc = collection.find();
@@ -60,14 +62,14 @@ public class PipelineData extends TimerTask {
 				Document document = (Document) it.next();
 
 				double temperature = (double) document.get("temperature");
-				// System.out.println(document.get("humidity"));
-				// System.out.println(document.get("CO2"));
+				double humidity = (double) document.get("humidity");
+				double CO2 = (double) document.get("CO2");
 
 				// Remove one hour from the time
 				Timestamp date = new Timestamp(((Date) document.get("date")).getTime() - 60 * 60 * 1000);
 				int device = (int) document.get("device");
 				//TODO Remove this print. It is used only for testing
-				System.out.println("INSERT INTO Reading VALUES ('" + date + "', " + device + ", " + temperature + ");");
+				System.out.println("INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + ",'" + date + "', " + device + ");");
 				
 
 				// We compare the latest reading with the readings that are currently retrieved
@@ -78,7 +80,7 @@ public class PipelineData extends TimerTask {
 					added = true;
 
 					Statement sta2 = conn.createStatement();
-					String Sql2 = "INSERT INTO Reading VALUES ('" + date + "', " + device + ", " + temperature + ");";
+					String Sql2 = "INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + ",'" + date + "', " + device + ");";
 					sta2.execute(Sql2);
 
 				}
