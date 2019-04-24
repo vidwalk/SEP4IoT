@@ -3,6 +3,7 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BridgeSocketServer
 {
@@ -26,8 +27,9 @@ namespace BridgeSocketServer
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient(); // wait for connection and accept it when reached
                 Console.WriteLine("Client with number :" + Convert.ToString(counter) + "has benn connected!");
-                HandleClient client = new HandleClient();
-                client.startClient(clientSocket, Convert.ToString(counter));
+                HandleClient client = new HandleClient(helper);
+                client.StartClient(clientSocket, Convert.ToString(counter));
+                
             }
 
         }
@@ -36,43 +38,49 @@ namespace BridgeSocketServer
     //Class to handle each client request separatly
     public class HandleClient
     {
-        TcpClient clientSocket;
-        string clientNo;
-        public void startClient(TcpClient inClientSocket, string clientNo)
+        private TcpClient clientSocket;
+        private string clientNo;
+        private readonly IDatabaseHelper _helper;
+        public HandleClient(IDatabaseHelper helper)
+        {
+            _helper = helper;
+        }
+
+        public void StartClient(TcpClient inClientSocket, string clientNo)
         {
             this.clientSocket = inClientSocket;
             this.clientNo = clientNo;
-            Thread ctThread = new Thread(doChat);
+            Thread ctThread = new Thread(HandleRequest);
             ctThread.Start();
         }
-        private void doChat()
+        private void HandleRequest()
         {
-            int requestCount = 0;
-            byte[] bytesFrom = new byte[10025]; // bytes from the connection
-            string dataFromClient = null;
-            Byte[] sendBytes = null;
-            string serverResponse = null;
-            requestCount = 0;
-
-            while ((true))
+            byte[] bytesFrom = new byte[1024]; // bytes from the connection
+             NetworkStream networkStream = clientSocket.GetStream(); // initalize stream
+            if (networkStream.CanRead)
             {
-                try
+                byte[] myReadBuffer = new byte[1024];
+                StringBuilder completeMessage = new StringBuilder();
+                int numberOfBytesRead = 0;
+                
+                do // in case the incoming message is larger than the buffer size
                 {
-                    requestCount = requestCount + 1;
-                    NetworkStream networkStream = clientSocket.GetStream(); // initalize stream
-                    networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize); // read bytes from the stream
-                    dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom); // convert bytes to string
-                    Console.WriteLine(" >> " + "From client-" + clientNo + dataFromClient);
+                    numberOfBytesRead = networkStream.Read(myReadBuffer, 0, myReadBuffer.Length);
 
-                    networkStream.Write(sendBytes, 0, sendBytes.Length);
-                    networkStream.Flush();
-                    Console.WriteLine(" >> " + serverResponse);
+                    completeMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(" >> " + ex.ToString());
-                }
+                while (networkStream.DataAvailable);
+
+
+                // Print out the received message to the console.
+                Console.WriteLine("You received the following message : " +
+                                             completeMessage);
+                RequestHandler r = new RequestHandler(_helper);
+                r.HandleRequest(RequestHandler.OperationNumber.SEND_READINGS_TO_DB, completeMessage.ToString());
+
             }
+
         }
     }
 }

@@ -1,22 +1,31 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BridgeSocketServer
 {
-    // This class is responsible for connection to database and sending data
+    /// <summary>
+    /// This class is responsible MongoDB specific connection and sending provided readings to it
+    /// </summary>
     class MongoDBHelper : IDatabaseHelper
     {
         private readonly string _dbUri;
+        private readonly IMongoDatabase _db;
 
         public MongoDBHelper(string uri)
         {
             _dbUri = uri;
             MongoClient mongoClient = new MongoClient(_dbUri);
-            var database = mongoClient.GetDatabase("ClimatizerDB");
+            _db = mongoClient.GetDatabase("ClimatizerDB");
             Console.WriteLine("Connected to the database successfully");
         }
 
+        public void StoreReading(BsonDocument reading)
+        {
+            var collection = _db.GetCollection<BsonDocument>("Climatizer");
+            collection.InsertOne(reading);
+            Console.WriteLine("Send data " + collection.ToString());
+
+        }
     }
 }

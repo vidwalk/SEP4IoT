@@ -4,7 +4,9 @@ using System.Text;
 
 namespace BridgeSocketServer.models
 {
-
+    /// <summary>
+    /// This class represents a reading from a device that's gonna be passed into the database
+    /// </summary>
     class Reading
     {
         public double Temperature { get; set; }

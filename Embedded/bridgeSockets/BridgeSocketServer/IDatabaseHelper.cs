@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,10 +9,13 @@ namespace BridgeSocketServer
     ///  This interface is responsible for connection to database and sending data to database
     /// </summary>
 
-    interface IDatabaseHelper
+    public interface IDatabaseHelper
     {
-
-        void SendReading(string jsonData);
+        /// <summary>
+        /// This method sends a json-parsed reading into the database
+        /// </summary>
+        /// <param name="jsonParsedData"></param>
+        void StoreReading(BsonDocument reading);
 
     }
 }
