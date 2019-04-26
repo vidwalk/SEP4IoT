@@ -23,5 +23,6 @@ public class ReadingService
          String[] split = result.split(" ");
          Reading reading = new Reading(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
          return reading;
+         
       }
 }

@@ -8,7 +8,7 @@ public class Reading
    public Reading() {
       
    }
-   public Reading(int device, double temperature) {
+   public Reading(double temperature,int device) {
       this.device = device;
       this.temperature = temperature;
    }
