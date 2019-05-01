@@ -60,7 +60,7 @@ void vTaskGetCO2(void* pvParameters){
 	
 	while (1)
 	{
-		printf("Taking measurment CO2\n");
+		printf("Taking measurement CO2\n");
 		vTaskDelay(2);
 		rc = mh_z19_take_meassuring();
 		if (rc != MHZ19_OK)
