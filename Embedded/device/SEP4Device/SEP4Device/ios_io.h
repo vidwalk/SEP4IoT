@@ -9,3 +9,7 @@
  #include <stddef.h>
  #include <stdio.h>
  #include <ATMEGA_FreeRTOS.h>
+ #include <queue.h>
+ #include <stdio_driver.h>
+ #include <avr/io.h>
+ #include <avr/interrupt.h>

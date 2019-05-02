@@ -12,18 +12,14 @@
 #define getTemperature_TASK_PRIORITY 6
 #define getCO2_TASK_PRIORITY 5
 #include "reading.c"
-#include <avr/io.h>
-#include <avr/interrupt.h>
+
 #include "FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.h"
-#include <stdio_driver.h>
-#include <ATMEGA_FreeRTOS.h>
+
 #include <ihal.h>
-#include <lora_driver.h>
-#include <stdio.h>
 #include <mh_z19.h>
 #include "lora_handler.h"
 #include "temp_hum_handler.h"
-
+#include "ios_io.h"
 
 TaskHandle_t xGet_CO2_Handler = NULL;
 void vTaskGetCO2(void* pvParameters);
