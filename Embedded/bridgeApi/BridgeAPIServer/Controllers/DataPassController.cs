@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BridgeAPIServer.LoRaConnection;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BridgeAPIServer.Controllers
@@ -14,7 +15,8 @@ namespace BridgeAPIServer.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            LoRaClient client = new LoRaClient();
+            return null;
         }
 
         // GET api/values/5
