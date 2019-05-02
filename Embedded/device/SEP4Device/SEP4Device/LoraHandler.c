@@ -23,7 +23,6 @@ void create_lora_connection(UBaseType_t initializeLora_TASK_PRIORITY,UBaseType_t
 		lora_driver_create(ser_USART1); // The parameter is the USART port the RN2483 module is connected to - in this case USART1
 		
 	xTaskCreate(_vTaskInitalizeLora, "Task read EUI", configMINIMAL_STACK_SIZE, NULL, initializeLora_TASK_PRIORITY, NULL); 
-	
 }
 
 void _vTaskInitalizeLora(void* pvParameters) {
@@ -48,4 +47,13 @@ void _vTaskInitalizeLora(void* pvParameters) {
 	}
 		printf("Ran Parameters for an OTAA join with code : %d\n",lora_driver_set_otaa_identity(LORA_appEUI,LORA_appKEY,dev_eui));
 		vTaskDelay(1);
+		
+	// the sending "task" has to be started here (not in a separate task) as we 
+	// don't want it to be executed in the meantime of delays of this one
+	while(true)
+	{
+		
+	}
 }
+
+
