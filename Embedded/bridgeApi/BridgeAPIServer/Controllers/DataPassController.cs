@@ -8,7 +8,7 @@ namespace BridgeAPIServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class DataPassController : ControllerBase
     {
         // GET api/values
         [HttpGet]

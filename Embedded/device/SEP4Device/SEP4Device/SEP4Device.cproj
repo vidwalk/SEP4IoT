@@ -46,7 +46,7 @@
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
-          <JtagDbgClock>1127500</JtagDbgClock>
+          <JtagDbgClock>1113231</JtagDbgClock>
         </InterfaceProperties>
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
@@ -55,7 +55,7 @@
       <ToolName>Atmel-ICE</ToolName>
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>JTAG</avrtoolinterface>
-    <avrtoolinterfaceclock>1127500</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>1113231</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -147,6 +147,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CO2Handler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="co2_handler.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="ios_io.h">
       <SubType>compile</SubType>
     </Compile>
