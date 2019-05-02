@@ -18,11 +18,7 @@ public class ReadingService
          adapter = new DatabaseAdapter();
       }
       
-      public Reading getAll() throws SQLException{
-         String result = adapter.getAll();
-         String[] split = result.split(" ");
-         Reading reading = new Reading(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-         return reading;
-         
+      public ArrayList<Reading> getAll() throws SQLException{
+         return adapter.getAll();
       }
 }
