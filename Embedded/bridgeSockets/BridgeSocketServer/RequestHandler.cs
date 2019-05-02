@@ -43,9 +43,10 @@ namespace BridgeSocketServer
             var reading = new BsonDocument 
             {
                 //Temperature and humidity should be a double
-                {"temperature", 12.0},
-                {"humidity", 71.0},
+                {"temperature", 9.0},
+                {"humidity", 61.0},
                 {"CO2", 360.5},
+                {"sound", 41.5},
                 {"date", DateTime.Now},
                 {"device", 16}
             };
