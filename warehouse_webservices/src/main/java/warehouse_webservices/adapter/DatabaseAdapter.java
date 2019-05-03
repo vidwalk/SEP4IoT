@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.concurrent.Future;
+
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 
 import warehouse_webservices.reading.Reading;
 
@@ -20,7 +24,8 @@ public class DatabaseAdapter
                                       + "trustServerCertificate=false;"
                                       + "loginTimeout=30;");
    
-   public ArrayList<Reading> getAll() throws SQLException {
+   @Async
+   public Future<ArrayList<Reading>> getAll() throws SQLException {
       ArrayList<Reading> readings = new ArrayList<>();
       
       
@@ -40,7 +45,7 @@ public class DatabaseAdapter
                      readings.add(reading);
                   }
                   
-                  return readings;
+                  return new AsyncResult<ArrayList<Reading>>(readings);
                   
       }catch(SQLException e) {
          
@@ -48,7 +53,7 @@ public class DatabaseAdapter
          
       }
       
-      return readings;
+      return new AsyncResult<ArrayList<Reading>>(readings);
   }
 
 }
