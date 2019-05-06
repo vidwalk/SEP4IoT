@@ -1,6 +1,6 @@
 DECLARE @StartDate DATETIME
 DECLARE @EndDate DATETIME
-SET @StartDate = '1996-01-01'
+SET @StartDate = '2019-01-01'
 SET @EndDate = DATEADD(d, 1095,
 @StartDate)
 WHILE @StartDate <= @EndDate
