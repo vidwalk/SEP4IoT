@@ -6,33 +6,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.concurrent.Future;
-
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-
 import warehouse_webservices.reading.Reading;
 
-public class DatabaseAdapter
+public class DatabaseAdapter implements Adapter
 {
    
-   String connectionUrl = new String("jdbc:sqlserver://10.200.131.2:1433;"
-                                      + "database=climatizerDB;"
-                                      + "user=groupZ1;"
-                                      + "password=groupZ1;"
-                                      + "encrypt=false;"
-                                      + "trustServerCertificate=false;"
-                                      + "loginTimeout=30;");
+   private String connectionUrl ;
    
-   @Async
-   public Future<ArrayList<Reading>> getAll() throws SQLException {
+   public DatabaseAdapter() {
+      connectionUrl = new String("jdbc:sqlserver://10.200.131.2:1433;"
+            + "database=climatizerDB;"
+            + "user=groupZ1;"
+            + "password=groupZ1;"
+            + "encrypt=false;"
+            + "trustServerCertificate=false;"
+            + "loginTimeout=30;");
+   }
+   
+   public ArrayList<Reading> getAll() throws SQLException {
+      
       ArrayList<Reading> readings = new ArrayList<>();
       
       
       try (Connection connection = DriverManager.getConnection(connectionUrl);
             Statement statement = connection.createStatement();) {
 
-                  String selectSql = "SELECT TOP 10 Device, Temperature, Sound, Humidity, CO2, Date from climatizerDB.dbo.Reading";
+                  String selectSql = "SELECT TOP 10 DeviceId, Temperature, Sound, Humidity, CO2, Date from climatizerDB.dbo.Reading";
                   ResultSet resultSet = statement.executeQuery(selectSql);
                   Reading reading;
                   while (resultSet.next()) {
@@ -45,7 +44,7 @@ public class DatabaseAdapter
                      readings.add(reading);
                   }
                   
-                  return new AsyncResult<ArrayList<Reading>>(readings);
+                  return readings;
                   
       }catch(SQLException e) {
          
@@ -53,7 +52,7 @@ public class DatabaseAdapter
          
       }
       
-      return new AsyncResult<ArrayList<Reading>>(readings);
+      return readings;
   }
 
 }

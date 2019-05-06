@@ -1,10 +1,6 @@
 package warehouse_webservices.reading;
 
 import java.sql.SQLException;
-import java.util.concurrent.Future;
-
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
@@ -15,9 +11,8 @@ public class ReadingController
 {
       private ReadingService readingService = new ReadingService();
       
-      @Async
       @RequestMapping("/readings")
-      public Future<String> getAllReadings() throws SQLException{
+      public String getAllReadings() throws SQLException{
          GsonBuilder builder = new GsonBuilder(); 
          builder.setPrettyPrinting(); 
          
@@ -25,7 +20,7 @@ public class ReadingController
          
          String response = new String(gson.toJson(readingService.getAll()));
          
-         return new AsyncResult<String>(response);
+         return response;
       }
       
       /*@RequestMapping("/readings/{id}")
