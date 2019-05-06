@@ -17,7 +17,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        TestFragment testFrag = new TestFragment();
+        AppFragment testFrag = new AppFragment();
         position = position + 1;
         Bundle bundle = new Bundle();
         bundle.putString("Message", "Fragment: " + position);
@@ -34,6 +34,19 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int  position){
         position = position + 1;
-        return "Fragment" + position;
+
+        switch(position){
+            case 1:
+                return "Degrees";
+            case 2:
+                return "Humidity";
+            case 3:
+                return "CO2";
+            case 4:
+                return "Sound";
+            default:
+                break;
+        }
+        return null;
     }
 }
