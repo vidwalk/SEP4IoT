@@ -13,7 +13,7 @@
 This struct represents the reading from one sensor,
 */
 struct reading {
-	char *readingName; // e.g. temperature, humidity etc.
-	float value; // the value read by the sensor
+	uint16_t readingLabel; // e.g. 0, 1 etc.
+	uint16_t value; // the value read by the sensor
 };
 #endif /* READING_H_ */

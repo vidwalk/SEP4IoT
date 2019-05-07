@@ -9,7 +9,7 @@
 #ifndef TEMP_HUM_HANDLER_H_
 #define TEMP_HUM_HANDLER_H_
 
-void initialize_temper_hum(char);
+void initialize_temper_hum(char, void*, void*);
 
 
 #endif /* TEMP_HUM_HANDLER_H_ */
