@@ -19,4 +19,8 @@ public class ReadingService
       public ArrayList<Reading> getAll() throws SQLException{
          return (ArrayList<Reading>) adapter.getAll();
       }
+      
+      public ArrayList<Reading> getReading(String date) throws SQLException {
+         return (ArrayList<Reading>) adapter.getReading(date);
+      }
 }

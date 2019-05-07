@@ -31,7 +31,8 @@ public class DatabaseAdapter implements Adapter
       try (Connection connection = DriverManager.getConnection(connectionUrl);
             Statement statement = connection.createStatement();) {
 
-                  String selectSql = "SELECT TOP 10 DeviceId, Temperature, Sound, Humidity, CO2, Date from climatizerDB.dbo.Reading";
+                  String selectSql = "SELECT TOP 10 DeviceId, Temperature, Sound, Humidity, CO2, convert(varchar(8), "
+                        + "convert(time, [Date])) as [Time], convert(date, [Date]) as [Date] from climatizerDB.dbo.Reading ORDER BY Time desc";
                   ResultSet resultSet = statement.executeQuery(selectSql);
                   Reading reading;
                   while (resultSet.next()) {
@@ -40,7 +41,7 @@ public class DatabaseAdapter implements Adapter
                      reading.setSound(Float.parseFloat(resultSet.getString(3)));
                      reading.setHumidity(Float.parseFloat(resultSet.getString(4)));
                      reading.setCo2(Float.parseFloat(resultSet.getString(5)));
-                     reading.setDatetime(resultSet.getString(6));
+                     reading.setDatetime(resultSet.getString(6) + " " + resultSet.getString(7));
                      readings.add(reading);
                   }
                   
@@ -53,6 +54,37 @@ public class DatabaseAdapter implements Adapter
       }
       
       return readings;
+  }
+   
+  public ArrayList<Reading> getReading(String something) {
+     ArrayList<Reading> readings = new ArrayList<>();
+     
+     try (Connection connection = DriverManager.getConnection(connectionUrl);
+           Statement statement = connection.createStatement();) {
+
+                 String selectSql = "SELECT DeviceId, Temperature, Sound, Humidity, CO2, convert(varchar(8), "
+                       + "convert(time, [Date])) as [Time], convert(date, [Date]) as [Date] from climatizerDB.dbo.Reading"
+                       + " WHERE convert(date, [Date]) between '" + something + "' and '" + something + "' ORDER BY Time desc";
+                 ResultSet resultSet = statement.executeQuery(selectSql);
+                 Reading reading;
+                 while (resultSet.next()) {
+                    reading = new Reading(Integer.parseInt(resultSet.getString(1)));
+                    reading.setTemperature(Float.parseFloat(resultSet.getString(2)));
+                    reading.setSound(Float.parseFloat(resultSet.getString(3)));
+                    reading.setHumidity(Float.parseFloat(resultSet.getString(4)));
+                    reading.setCo2(Float.parseFloat(resultSet.getString(5)));
+                    reading.setDatetime(resultSet.getString(6) + " " + resultSet.getString(7));
+                    readings.add(reading);
+                 }
+                 
+                 return readings;
+                 
+     }catch(SQLException e) {
+        
+        e.printStackTrace();
+        
+     }
+     return readings;
   }
 
 }
