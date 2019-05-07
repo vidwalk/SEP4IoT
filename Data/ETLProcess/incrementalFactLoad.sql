@@ -25,4 +25,4 @@ INSERT INTO climatizerDimensional.dbo.F_Reading
 SELECT DeviceKey, TimeKey, DateKey, CO2Value, HumidityValue, TemperatureValue
 FROM stage_F_Reading
 
-UPDATE climatizerDimensional.dbo.DateUpdate SET lastUpdate = (convert(date, CURRENT_TIMESTAMP))
+UPDATE climatizerDimensional.dbo.DateUpdate SET lastUpdate = CURRENT_TIMESTAMP

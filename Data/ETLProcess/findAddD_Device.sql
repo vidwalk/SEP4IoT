@@ -24,4 +24,4 @@ from climatizerDimensional.dbo.D_Device
 )
 )
 
-UPDATE climatizerDimensional.dbo.DateUpdate SET lastUpdate = (convert(date, CURRENT_TIMESTAMP))
+UPDATE climatizerDimensional.dbo.DateUpdate SET lastUpdate = CURRENT_TIMESTAMP
