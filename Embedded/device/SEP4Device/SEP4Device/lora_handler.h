@@ -9,7 +9,6 @@
 #ifndef LORA_HANDLER_H_
 #define LORA_HANDLER_H_
 
-void create_lora_connection(UBaseType_t,UBaseType_t);
-
+void create_lora_connection(unsigned char,unsigned char, void*, void*);
 
 #endif /* LORA_HANDLER_H_ */

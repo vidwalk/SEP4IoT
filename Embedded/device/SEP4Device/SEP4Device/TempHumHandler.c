@@ -12,30 +12,68 @@
 void _vTaskGetTemperatureAndHumidity(void* pvParameters);
 
 TaskHandle_t xGet_Temperature_Handler = NULL;
-void initialize_temper_hum(char getTemperature_TASK_PRIORITY) {
-	
-	printf("Humidity and Temperature sensor initialization returned code: %d\n",hih8120Create());
-	
+QueueHandle_t xSendingQueue;
+bool _writeFlag;
+
+void initialize_temper_hum(char getTemperature_TASK_PRIORITY, void* ptrQueue, void* writeFlag) {
+	xSendingQueue = *(QueueHandle_t*)ptrQueue;
+	_writeFlag = writeFlag;
+	int a = hih8120Create();
+	printf("Humidity and Temperature sensor initialization returned code: %d\n",a);
 	xTaskCreate(_vTaskGetTemperatureAndHumidity, "Task Get Temp&Hum",
-	configMINIMAL_STACK_SIZE, NULL, getTemperature_TASK_PRIORITY, NULL);
+	configMINIMAL_STACK_SIZE+200, NULL, getTemperature_TASK_PRIORITY, NULL);
 }
 
 void _vTaskGetTemperatureAndHumidity(void* pvParameters){
 	(void)pvParameters;
-	float humidity = 0.0;
-	float temperature = 0.0;
+	uint16_t humidity = 0;
+	uint16_t temperature = 0;
+	struct reading measurmentTemp;
+	struct reading measurmentHum;
 	while(1){
-		vTaskDelay(200);
 		hih8120Wakeup();
-		vTaskDelay(2000);
-		printf("Temp and humidity sensor waking up returned  the code\n" );
-		printf("Measuring the humidity and temperature returned with the code: %d\n", hih8120Meassure());
-		vTaskDelay(3);
+		vTaskDelay(200);
+		hih8120Meassure();
+		vTaskDelay(100);
 		
-		humidity = (float) hih8120GetHumidity();
-		temperature = (float) hih8120GetTemperature();
-		printf("%f %f\n", humidity, temperature);
+		humidity = hih8120GetHumidityPercent_x10(); // get int instead of floats
+		temperature = hih8120GetTemperature_x10();  // get int instead of floats
+		vTaskDelay(2);
+		printf("Temperature is: %d and humidity is: %d\n", humidity, temperature);
+		
+		
+		measurmentTemp.readingLabel = TEMPERATURE_LABEL;
+		measurmentTemp.value = temperature;
+		measurmentHum.readingLabel = HUMIDITY_LABEL;
+		measurmentHum.value = humidity;
+		if(_writeFlag){
+			if(!xQueueSend(xSendingQueue, (void*)&measurmentTemp, 100)) {
+				printf("Failed to send temperature to the queue\n");
+				vTaskDelay(200); // wait a little and try write data again
+				} else {
+				printf("@@@@ ---- >>> Succeeded in temperature to the queue <<< ---- @@@@\n");
+				vTaskDelay(100); // let other sensors write their data to the queue
+			};
+			if(!xQueueSend(xSendingQueue, (void*)&measurmentHum, 100)) {
+				printf("Failed to send humidity to the queue\n");
+				vTaskDelay(200);
+				} else {
+				printf("@@@@ ---- >>> Succeeded in writing humidity to the queue <<< ---- @@@@\n");
+				UBaseType_t itemsNumber = uxQueueMessagesWaiting( xSendingQueue );
+				if(itemsNumber == QUEUE_READINGS_NUMBER){
+					// queue is full
+					printf("Queue is full, setting the flag to false\n");
+					_writeFlag = false;
+				}
+				vTaskDelay(2000);
+			};
+		} else {
+			printf("Write flag is false, cannot write things in the queue\n");
+			vTaskDelay(100);
+		}
+		
 		
 	}
-	
 }
+
+
