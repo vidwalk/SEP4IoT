@@ -7,11 +7,11 @@
 
 
 
-#define LED_TASK_PRIORITY 7
-#define initializeLora_TASK_PRIORITY 6
-#define Temperature_TASK_PRIORITY 4
-#define CO2_TASK_PRIORITY 5
-#include "reading.c"
+#define LED_TASK_PRIORITY 8
+#define initializeLora_TASK_PRIORITY 7
+#define Temperature_TASK_PRIORITY 5
+#define CO2_TASK_PRIORITY 6
+#define Light_TASK_PRIORITY 4
 
 #include "FreeRTOS/FreeRTOSTraceDriver/FreeRTOSTraceDriver.h"
 
@@ -21,15 +21,18 @@
 #include "ios_io.h"
 #include "co2_handler.h"
 
+QueueHandle_t xSendingQueue;
+bool _writeFlag; // indicates if sensor can write into the queue - if true then yes
 int main(void)
 {
+	_writeFlag = true;
 	stdioCreate(0);
-	sei();
-	
-	create_lora_connection(initializeLora_TASK_PRIORITY, LED_TASK_PRIORITY);
-	//initialize_temper_hum(Temperature_TASK_PRIORITY);
-	//initialize_co2(CO2_TASK_PRIORITY);
-	
+	// sei(); not needed as task scheduler does it
+	xSendingQueue = xQueueCreate(QUEUE_READINGS_NUMBER, sizeof(struct reading));
+	create_lora_connection(initializeLora_TASK_PRIORITY, LED_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	initialize_temper_hum(Temperature_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	initialize_co2(CO2_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	//initialize_light(Light_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
 	vTaskStartScheduler();
     while (1) 
     {

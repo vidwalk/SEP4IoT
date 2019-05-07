@@ -51,7 +51,7 @@ Here you you will find the functions you normally will need.
 
 #ifndef TSL2591_H_
 #define TSL2591_H_
-
+#include <stdint.h>
 #include <stdbool.h>
 
 /**
