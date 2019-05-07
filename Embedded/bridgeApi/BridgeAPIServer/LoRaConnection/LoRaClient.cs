@@ -9,7 +9,7 @@ namespace BridgeAPIServer.LoRaConnection
 
         public void Run_Actuator()
         {
-            using (var ws = new WebSocket("https://iotnet.teracom.dk/apps/websocket.html?token=vnoRfwAAABFpb3RuZXQudGVyYWNvbS5ka_ct-QZ1DMiwgA-TLGfiomI="))
+            using (var ws = new WebSocket("wss://iotnet.teracom.dk/app?token=vnoRfwAAABFpb3RuZXQudGVyYWNvbS5ka_ct-QZ1DMiwgA-TLGfiomI="))
             {
                 ws.OnOpen += (sender, e) =>
                 {
