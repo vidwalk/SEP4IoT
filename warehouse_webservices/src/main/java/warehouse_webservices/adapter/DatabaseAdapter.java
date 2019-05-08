@@ -23,29 +23,29 @@ public class DatabaseAdapter implements Adapter
             + "loginTimeout=30;");
    }
    
-   public ArrayList<Reading> getAll() throws SQLException {
+   public Reading getAll() throws SQLException {
       
-      ArrayList<Reading> readings = new ArrayList<>();
+      Reading reading = new Reading();
       
       
       try (Connection connection = DriverManager.getConnection(connectionUrl);
             Statement statement = connection.createStatement();) {
 
-                  String selectSql = "SELECT TOP 10 DeviceId, Temperature, Sound, Humidity, CO2, convert(varchar(8), "
-                        + "convert(time, [Date])) as [Time], convert(date, [Date]) as [Date] from climatizerDB.dbo.Reading ORDER BY Time desc";
+                  String selectSql = "SELECT TOP 1 DeviceId, Temperature, Sound, Humidity, CO2, Light, convert(varchar(8), "
+                        + "convert(time, [Date])) as [Time], convert(date, [Date]) as [Date] from climatizerDB.dbo.Reading ORDER BY Date desc";
                   ResultSet resultSet = statement.executeQuery(selectSql);
-                  Reading reading;
+                  
                   while (resultSet.next()) {
                      reading = new Reading(Integer.parseInt(resultSet.getString(1)));
                      reading.setTemperature(Float.parseFloat(resultSet.getString(2)));
                      reading.setSound(Float.parseFloat(resultSet.getString(3)));
                      reading.setHumidity(Float.parseFloat(resultSet.getString(4)));
                      reading.setCo2(Float.parseFloat(resultSet.getString(5)));
-                     reading.setDatetime(resultSet.getString(6) + " " + resultSet.getString(7));
-                     readings.add(reading);
+                     reading.setLight(Float.parseFloat(resultSet.getString(6)));
+                     reading.setDatetime(resultSet.getString(7) + " " + resultSet.getString(8));
                   }
                   
-                  return readings;
+                  return reading;
                   
       }catch(SQLException e) {
          
@@ -53,7 +53,7 @@ public class DatabaseAdapter implements Adapter
          
       }
       
-      return readings;
+      return reading;
   }
    
   public ArrayList<Reading> getReading(String something) {
@@ -62,7 +62,7 @@ public class DatabaseAdapter implements Adapter
      try (Connection connection = DriverManager.getConnection(connectionUrl);
            Statement statement = connection.createStatement();) {
 
-                 String selectSql = "SELECT DeviceId, Temperature, Sound, Humidity, CO2, convert(varchar(8), "
+                 String selectSql = "SELECT DeviceId, Temperature, Sound, Humidity, CO2, Light, convert(varchar(8), "
                        + "convert(time, [Date])) as [Time], convert(date, [Date]) as [Date] from climatizerDB.dbo.Reading"
                        + " WHERE convert(date, [Date]) between '" + something + "' and '" + something + "' ORDER BY Time desc";
                  ResultSet resultSet = statement.executeQuery(selectSql);
@@ -73,7 +73,8 @@ public class DatabaseAdapter implements Adapter
                     reading.setSound(Float.parseFloat(resultSet.getString(3)));
                     reading.setHumidity(Float.parseFloat(resultSet.getString(4)));
                     reading.setCo2(Float.parseFloat(resultSet.getString(5)));
-                    reading.setDatetime(resultSet.getString(6) + " " + resultSet.getString(7));
+                    reading.setLight(Float.parseFloat(resultSet.getString(6)));
+                    reading.setDatetime(resultSet.getString(7) + " " + resultSet.getString(8));
                     readings.add(reading);
                  }
                  

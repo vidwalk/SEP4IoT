@@ -6,7 +6,7 @@ import warehouse_webservices.reading.Reading;
 
 public interface Adapter
 {
-    public ArrayList<Reading> getAll() throws SQLException;
+    public Reading getAll() throws SQLException;
     
     public ArrayList<Reading> getReading(String date) throws SQLException;
 }

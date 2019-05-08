@@ -2,10 +2,16 @@ package warehouse_webservices.reading;
 
 public class Reading
 {
-   private float temperature, humidity, sound, co2;
+   private float temperature, humidity, sound, co2, light;
    private int device;
    private String datetime;
    
+   public Reading() {
+      
+   }
+   public Reading(int device) {
+      this.device = device;
+   }
    public String getDatetime()
    {
       return datetime;
@@ -14,11 +20,13 @@ public class Reading
    {
       this.datetime = datetime;
    }
-   public Reading() {
-      
+   public float getLight()
+   {
+      return light;
    }
-   public Reading(int device) {
-      this.device = device;
+   public void setLight(float light)
+   {
+      this.light = light;
    }
    public float getTemperature()
    {
