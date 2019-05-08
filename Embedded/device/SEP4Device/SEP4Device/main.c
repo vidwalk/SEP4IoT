@@ -32,7 +32,7 @@ int main(void)
 	create_lora_connection(initializeLora_TASK_PRIORITY, LED_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
 	initialize_temper_hum(Temperature_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
 	initialize_co2(CO2_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
-	//initialize_light(Light_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	initialize_light(Light_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
 	vTaskStartScheduler();
     while (1) 
     {

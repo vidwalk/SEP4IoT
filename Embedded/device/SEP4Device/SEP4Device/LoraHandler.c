@@ -58,7 +58,7 @@ void _vTaskInitalizeLora(void* pvParameters) {
 		vTaskDelay(1);
 		printf("Joining Lora with OTAA returned code: %d\n",lora_driver_join(LoRa_OTAA));
 		vTaskDelay(1);
-		_uplink_payload.len = 6; // Length of the actual payload
+		_uplink_payload.len = QUEUE_READINGS_NUMBER*2; // Length of the actual payload
 		_uplink_payload.port_no = 1; // The LoRaWAN port no to sent the message to
 		
 	// the sending "task" has to be started here (not in a separate task) as we 
