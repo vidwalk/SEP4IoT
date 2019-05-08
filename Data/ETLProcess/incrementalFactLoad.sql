@@ -1,14 +1,15 @@
 DELETE FROM climatizerDimensional.dbo.stage_F_Reading
 
 INSERT INTO climatizerDimensional.dbo.stage_F_Reading
-(DeviceId, TimeValue, DateValue, CO2Value, HumidityValue, TemperatureValue)
+(DeviceId, TimeValue, DateValue, CO2Value, HumidityValue, TemperatureValue, LightValue)
 SELECT
 DeviceId,
 convert(varchar(8), convert(time, [Date])) as [Time],
 convert(date, [Date]) as [Date],
 CO2,
 Humidity,
-Temperature
+Temperature,
+LightValue
 FROM climatizerDB.dbo.Reading
 WHERE [Date] > (SELECT lastUpdate FROM DateUpdate)
 
@@ -21,8 +22,8 @@ UPDATE stage_F_Reading
 SET DateKey = (SELECT DateKey from D_Date WHERE D_Date.CalendarDate = stage_F_Reading.DateValue)
 
 INSERT INTO climatizerDimensional.dbo.F_Reading
-(DeviceKey, TimeKey, DateKey, CO2Value, HumidityValue, TemperatureValue)
-SELECT DeviceKey, TimeKey, DateKey, CO2Value, HumidityValue, TemperatureValue
+(DeviceKey, TimeKey, DateKey, CO2Value, HumidityValue, TemperatureValue, LightValue)
+SELECT DeviceKey, TimeKey, DateKey, CO2Value, HumidityValue, TemperatureValue, LightValue
 FROM stage_F_Reading
 
 UPDATE climatizerDimensional.dbo.DateUpdate SET lastUpdate = CURRENT_TIMESTAMP
