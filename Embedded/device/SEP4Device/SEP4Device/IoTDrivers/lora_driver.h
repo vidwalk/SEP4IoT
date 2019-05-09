@@ -1,11 +1,13 @@
 /**
 \file
-\brief LoRaWAN library using MicroChip RN2483 LoRaWAN module,
+
 \author Ib Havn
 \version 1.0.0
 
 \defgroup lora_driver LoRaWAN Driver using RN2384 Module
 \{
+\brief LoRaWAN library using MicroChip RN2483 LoRaWAN module.
+
 The implementation works with interrupt, meaning that there are no busy-waiting involved.
 
 \note Dependent on FreeRTOS version 10.x.

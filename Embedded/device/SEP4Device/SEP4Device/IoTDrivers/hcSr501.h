@@ -1,12 +1,12 @@
 /**
 \file
-\brief Driver to PIR sensor using the HC-SR501 PIR Motion Detector Module.
 
 \author Ib Havn
 \version 1.0.0
 
 \defgroup sr501_driver Driver for PIR sensor
 \{
+\brief Driver to PIR sensor using the HC-SR501 PIR Motion Detector Module.
 
 The datasheet for the HC-SR501 PIR Motion Detector can be found here <a href="https://www.mpja.com/download/31227sc.pdf">HC-SR501 PIR Motion Detector Product Description</a>
 
