@@ -24,20 +24,20 @@ public class UplinkMessageFormatter {
         incomingMessage = inJson.getString("data");
         String currentData;
         //Dividing the payload to separate data and storing in the correct variables
-        for(int i = 0; i <= 6; i=i+4) {
+        for(int i = 0; i <= 12; i=i+4) {
             currentData = incomingMessage.substring(i, i+4);
             switch (i) {
                 case 0 :
                     temperature = Integer.parseInt(currentData, 16);
                     temperature = temperature/10;
                     break;
-                case 2:
+                case 4:
                     humidity = Integer.parseInt(currentData, 16);
                     break;
-                case 4:
+                case 8:
                     co2 = Integer.parseInt(currentData, 16);
                     break;
-                case 6:
+                case 12:
                     light = Integer.parseInt(currentData, 16);
                     break;
             }
