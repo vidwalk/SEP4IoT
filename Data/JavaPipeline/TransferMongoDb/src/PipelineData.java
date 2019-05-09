@@ -65,14 +65,13 @@ public class PipelineData extends TimerTask {
 				double temperature = (double) document.get("temperature");
 				double humidity = (double) document.get("humidity");
 				double CO2 = (double) document.get("CO2");
-				double sound = (double) document.get("sound");
 				double light = (double) document.get("light");
 				
 				// Remove one hour from the time
 				Timestamp date = new Timestamp(((Date) document.get("date")).getTime() - 60 * 60 * 1000);
 				int device = (int) document.get("device");
 				//TODO Remove this print. It is used only for testing
-				System.out.println("INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + "," + sound + ",'" + date + "', " + device + ", " + light + ");");
+				System.out.println("INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + ",'" + date + "', " + device + ", " + light + ");");
 				
 
 				// We compare the latest reading with the readings that are currently retrieved
@@ -83,7 +82,7 @@ public class PipelineData extends TimerTask {
 					added = true;
 
 					Statement sta2 = conn.createStatement();
-					String Sql2 = "INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + "," + sound + ",'" + date + "', " + device + ", " + light + ");";
+					String Sql2 = "INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + ",'" + date + "', " + device + ", " + light + ");";
 					sta2.execute(Sql2);
 
 				}
