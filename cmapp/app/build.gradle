@@ -31,3 +31,4 @@ dependencies {
     //LifeCycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 }
+

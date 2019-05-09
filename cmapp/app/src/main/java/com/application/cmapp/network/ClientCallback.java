@@ -6,6 +6,7 @@ import org.json.JSONException;
 
 public interface ClientCallback {
 
-    public void onResponseReceived(String jsonString) throws JSONException;
-    public void onFailed();
+    void onResponseReceived(String jsonString) throws JSONException;
+    void onFailed();
+    void onDataSent(String jsonString);
 }
