@@ -2,9 +2,11 @@ package com.application.cmapp.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.application.cmapp.R;
 import com.application.cmapp.model.Reading;
 import com.application.cmapp.viewmodel.ReadingViewModel;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     Reading reading;
     ArrayList<Reading> readings = new ArrayList<Reading>();
 
+    private ViewPager vPager;
+    private ViewPagerAdapter adapter;
+
     private ReadingViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,17 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
+        setSupportActionBar(toolbar);
+
+        vPager = findViewById(R.id.viewPager);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        vPager.setAdapter(adapter);
+
+        TabLayout tabs = findViewById(R.id.tabLayout);
+        tabs.setupWithViewPager(vPager);
+
         temperature = findViewById(R.id.temperature);
         deviceNo = findViewById(R.id.devicenumber);
         sound = findViewById(R.id.sound);
