@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class UplinkMessageFormatter {
 
     public static String incomingMessage;
-    public static int temperature;
+    public static double temperature;
     public static int humidity;
     public static int co2;
     public static int light;
@@ -29,6 +29,7 @@ public class UplinkMessageFormatter {
             switch (i) {
                 case 0 :
                     temperature = Integer.parseInt(currentData, 16);
+                    temperature = temperature/10;
                     break;
                 case 2:
                     humidity = Integer.parseInt(currentData, 16);
@@ -52,8 +53,10 @@ public class UplinkMessageFormatter {
                 .put("humidity", humidity)
                 .put("CO2", co2)
                 .put("light", light)
-                .put("date", dtf.format(now))
+                .put("date", now)
                 .put("device", EUI).toString();
+
+        System.out.println(outJsonString);
 
         return outJsonString;
 

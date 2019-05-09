@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
-public class LoRaClient implements WebSocket.Listener {
+public class LoRaClient implements WebSocket.Listener{
 
     WebSocket webSocket;
     MongoDBHelper dbHelper;
@@ -53,6 +53,7 @@ public class LoRaClient implements WebSocket.Listener {
     };
     //onText()
     public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
+        System.out.println("A message was received:");
         System.out.println(data);
         webSocket.request(1);
         String cleanMessage = UplinkMessageFormatter.receiveMessage(data);
