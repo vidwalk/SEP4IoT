@@ -1,4 +1,4 @@
-package com.application.cmapp.activities;
+package com.application.cmapp.activities.fragments;
 
 
 
@@ -19,9 +19,14 @@ public class AppFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstance){
-        View view = inflater.inflate(R.layout.activity_app_fragment, container, false);
+
+        return inflater.inflate(R.layout.activity_app_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstance)
+    {
         TextView textView = view.findViewById(R.id.fragText);
         textView.setText(getArguments().getString("Message"));
-        return view;
     }
 }

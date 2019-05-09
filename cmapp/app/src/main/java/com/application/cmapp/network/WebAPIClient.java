@@ -40,10 +40,9 @@ public class WebAPIClient {
         OutputStream outputStream = null;
         OutputStreamWriter outputStreamWriter = null;
 
-        DataOutputStream dataOutputStream = null;
-
+        //Open Window json oject
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("Message", "open");
+        jsonObject.put("Message", "useWindow");
 
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -58,14 +57,7 @@ public class WebAPIClient {
 
             outputStream = urlConnection.getOutputStream();
             outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
-            dataOutputStream = new DataOutputStream(outputStream);
 
-
-
-
-
-            //dataOutputStream.writeBytes(jsonObject.toString());
-            // outputStreamWriter.write(jsonObject.toString());
             outputStreamWriter.write(jsonObject.toString());
             outputStreamWriter.close();
 
@@ -77,12 +69,7 @@ public class WebAPIClient {
 
                 Log.d("cacat", String.valueOf(urlConnection.getResponseCode()));
                 Log.d("cacat", String.valueOf(urlConnection.getResponseMessage()));
-
-             //   outputStreamWriter.flush();
-                //dataOutputStream.flush();
-
-                //outputStream.close();
-              //  jsonResponse = "Success!";
+                jsonResponse = "Success!";
 
             }
         } catch (IOException e)
@@ -109,9 +96,6 @@ public class WebAPIClient {
 
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
-
-
-
 
         try {
             urlConnection = (HttpURLConnection) url.openConnection();

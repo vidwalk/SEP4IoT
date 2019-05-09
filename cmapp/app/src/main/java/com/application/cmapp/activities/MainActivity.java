@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         //Quick connection no Async task for quick testing
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
-        StrictMode.setThreadPolicy(policy);
+        //StrictMode.setThreadPolicy(policy);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
         temperature.setText("Temperature: ");
 
-
         viewModel = ViewModelProviders.of(this).get(ReadingViewModel.class);
 
         //Most Recent Reading.
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     //Get reading
-                    viewModel.getReading("http://10.152.194.106:8080/readings");
+                    viewModel.getReading("http://10.152.194.100:8080/readings");
                 }
                 catch (IOException ex){
                     ex.printStackTrace();
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     //Get reading
-                    viewModel.getReadings("http://10.152.194.106:8080/readings/"+date.getText());
+                    viewModel.getReadings("http://10.152.194.100:8080/readings/"+date.getText());
                 }
                 catch (IOException ex){
                     ex.printStackTrace();
@@ -113,13 +112,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 try {
-                    //Send data
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("String", "bitch");
-                    //viewModel.sendOpenWindow("http://10.152.194.106:8080/window/"+jsonObject.toString());
-                    viewModel.sendOpenWindow("http://10.152.222.115:8080/window");
+                    viewModel.sendOpenWindow("http://10.152.222.116:8080/window");
                 }
-                catch (IOException | JSONException ex){
+                catch (IOException ex){
                     ex.printStackTrace();
                 }
             }
@@ -157,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateCurrentReading(Reading reading)
     {
-      //  this.reading = reading;
+        this.reading = reading;
         temperature.setText(String.valueOf(reading.getTemperature()));
         humidity.setText(String.valueOf(reading.getHumidity()));
         datetime.setText(reading.getDateTime());
@@ -169,14 +164,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateCurrentReadings(ArrayList<Reading> readings)
     {
-        //this.readings = readings;
         Log.d("cacat", readings.toString());
-        temperature.setText(String.valueOf(readings.get(1).getTemperature()));
-        //this.readings = readings;
-       // temperature.setText(String.valueOf(readings.get(0).getTemperature()));
-        //Log.d("cacat", readings.toString());
-        //if (readings.get(1).getTemperature() == 21.3)
-        //temperature.setText(String.valueOf(readings.get(1).getTemperature()));
+        temperature.setText(String.valueOf(readings.get(0).getTemperature()));
     }
 
 }
