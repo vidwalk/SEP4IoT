@@ -14,6 +14,7 @@ namespace BridgeAPIServer.LoRaConnection
                 ws.OnOpen += (sender, e) =>
                 {
                     ws.Send("Open Window");
+                    Console.WriteLine("Connection established.");
                 };
 
                 ws.OnError += (sender, e) => {
@@ -24,8 +25,13 @@ namespace BridgeAPIServer.LoRaConnection
                     Console.WriteLine("Connection closed");
                 };
 
+                ws.OnMessage += (sender, e) =>
+                {
+                    Console.WriteLine("Message received.");
+                    Console.WriteLine($"Message received, bytes: {e.RawData}");
+                };
+
                 ws.Connect();
-                ws.Close();
             }
 
         }
