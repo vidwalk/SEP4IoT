@@ -7,7 +7,7 @@ public class UplinkMessageFormatter {
 
     public static String incomingMessage;
     public static double temperature;
-    public static int humidity;
+    public static double humidity;
     public static int co2;
     public static int light;
     public static String EUI = "11dc3bc663ea64c5";
@@ -33,6 +33,7 @@ public class UplinkMessageFormatter {
                     break;
                 case 4:
                     humidity = Integer.parseInt(currentData, 16);
+                    humidity = humidity/10;
                     break;
                 case 8:
                     co2 = Integer.parseInt(currentData, 16);
