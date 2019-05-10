@@ -66,12 +66,10 @@ public class PipelineData extends TimerTask {
 				double humidity = (double) document.get("humidity");
 				double CO2 = (double) document.get("CO2");
 				double light = (double) document.get("light");
+				String device = (String) document.get("device");
 				
 				// Remove one hour from the time
-				Timestamp date = new Timestamp(((Date) document.get("date")).getTime() - 60 * 60 * 1000);
-				int device = (int) document.get("device");
-				//TODO Remove this print. It is used only for testing
-				System.out.println("INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + ",'" + date + "', " + device + ", " + light + ");");
+				Timestamp date = new Timestamp(((Date) document.get("date")).getTime() - 2*60 * 60 * 1000);
 				
 
 				// We compare the latest reading with the readings that are currently retrieved
@@ -82,7 +80,7 @@ public class PipelineData extends TimerTask {
 					added = true;
 
 					Statement sta2 = conn.createStatement();
-					String Sql2 = "INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + ",'" + date + "', " + device + ", " + light + ");";
+					String Sql2 = "INSERT INTO Reading VALUES (" + CO2 + "," + temperature + "," + humidity + ",'" + date + "', '" + device + "', " + light + ");";
 					sta2.execute(Sql2);
 
 				}
@@ -90,7 +88,7 @@ public class PipelineData extends TimerTask {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -99,17 +97,6 @@ public class PipelineData extends TimerTask {
 			System.out.println("New documents added to sql server");
 		else
 			System.out.println("No new documents added to the sql server");
-		// waits 30 seconds
-		// completeTask();
-	}
-
-	private void completeTask() {
-		try {
-			// assuming it takes 30 secs to complete the task
-			Thread.sleep(30000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static void main(String args[]) {
@@ -119,9 +106,10 @@ public class PipelineData extends TimerTask {
 		// Scheduled at 30 seconds
 		timer.scheduleAtFixedRate(timerTask, 0, 30 * 1000);
 		System.out.println("TimerTask started");
-		// cancel after 2 minutes = 120 seconds
+		// cancel after 24 hours = (60000 * 60) * 24
+		// 60000 = 60 seconds = 1 minute
 		try {
-			Thread.sleep(120000);
+			Thread.sleep(86400000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

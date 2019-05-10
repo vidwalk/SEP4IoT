@@ -10,7 +10,7 @@ GO
 
 CREATE TABLE [dbo].[changed_device](
 	[DeviceKey] [int] IDENTITY(1,1) NOT NULL,
-	[DeviceId] [int] NOT NULL,
+	[DeviceId] [varchar(17)] NOT NULL,
 	[deviceName] [nvarchar](40) NOT NULL,
  CONSTRAINT [PK_changed_device] PRIMARY KEY CLUSTERED 
 (
