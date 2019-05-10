@@ -30,11 +30,11 @@ int main(void)
 	stdioCreate(0);
 	// sei(); not needed as task scheduler does it
 	xSendingQueue = xQueueCreate(QUEUE_READINGS_NUMBER, sizeof(struct reading));
-	create_lora_connection(initializeLora_TASK_PRIORITY, LED_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
-	initialize_temper_hum(Temperature_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
-	initialize_co2(CO2_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
-	initialize_light(Light_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
-	//initialize_motor(3);
+	//create_lora_connection(initializeLora_TASK_PRIORITY, LED_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	//initialize_temper_hum(Temperature_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	//initialize_co2(CO2_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	//initialize_light(Light_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	initialize_motor(3);
 	vTaskStartScheduler();
     while (1) 
     {
