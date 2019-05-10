@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -18,8 +19,10 @@ import android.widget.TextView;
 
 import com.application.cmapp.R;
 import com.application.cmapp.model.Reading;
+import com.application.cmapp.viewmodel.LogInViewModel;
 import com.application.cmapp.viewmodel.ReadingViewModel;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.FirebaseApp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,14 +35,18 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     TextView temperature, deviceNo, sound, co2, humidity, datetime, date;
     //Reading reading;
-    Button getReading, getReadings, openWindow;
+    Button getReading, getReadings, openWindow, gotoLogin;
     Reading reading;
     ArrayList<Reading> readings = new ArrayList<Reading>();
+
+    TextView email;
+    Button adminButton;
 
     private ViewPager vPager;
     private ViewPagerAdapter adapter;
 
     private ReadingViewModel viewModel;
+    private LogInViewModel logInViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -58,9 +65,15 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         vPager.setAdapter(adapter);
 
+        //Login elements
+        email = findViewById(R.id.adminEmail);
+        adminButton = findViewById(R.id.ButtonForAdmins);
+
         TabLayout tabs = findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(vPager);
 
+        gotoLogin = findViewById(R.id.gotoLogin);
+        /*
         temperature = findViewById(R.id.temperature);
         deviceNo = findViewById(R.id.devicenumber);
         sound = findViewById(R.id.sound);
@@ -73,10 +86,23 @@ public class MainActivity extends AppCompatActivity {
         getReadings = findViewById(R.id.getReadings);
         openWindow = findViewById(R.id.openWindow);
 
-        temperature.setText("Temperature: ");
+*/
+//        temperature.setText("Temperature: ");
 
         viewModel = ViewModelProviders.of(this).get(ReadingViewModel.class);
+        logInViewModel = ViewModelProviders.of(this).get(LogInViewModel.class);
 
+        gotoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+        /*
         //Most Recent Reading.
         getReading.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+*/
         //Make this activity observe the most recent reading mutableData
         MutableLiveData<Reading> readingLiveData = viewModel.getReadingLiveData();
 
@@ -148,6 +174,39 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //LOGIN
+        MutableLiveData<String> readingLoginLiveData = logInViewModel.getAdminIsLoggedInCheck();
+        MutableLiveData<String> readingSignOutLiveData = logInViewModel.AdminSignOut();
+
+        readingSignOutLiveData.observe(this, new Observer<String>()
+        {
+            public void onChanged(String s)
+            {
+                email.setText(s);
+            }
+        });
+
+        readingLoginLiveData.observe(this, new Observer<String>()
+        {
+            public void onChanged( String s)
+            {
+                email.setText(s);
+
+                if (email.getText().toString().equals("Anonymous user"))
+                {
+                    adminButton.setVisibility(View.GONE);
+                }
+
+                else {
+                    adminButton.setVisibility(View.VISIBLE);
+                }
+
+
+
+            }
+        });
+
+
     }
 
     public void updateCurrentReading(Reading reading)
@@ -167,5 +226,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d("cacat", readings.toString());
         temperature.setText(String.valueOf(readings.get(0).getTemperature()));
     }
+
+
+
+
+
+
+
+
+
+
 
 }
