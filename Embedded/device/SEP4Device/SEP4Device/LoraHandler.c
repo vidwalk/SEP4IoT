@@ -52,15 +52,16 @@ void _vTaskInitalizeLora(void* pvParameters) {
 		printf("EUI of the device: %s\n", dev_eui);
 		vTaskDelay(1);
 	}
+	xSemaphoreTake(xSemaphore,portMAX_DELAY);
 		printf("Ran Parameters for an OTAA join with code : %d\n",lora_driver_set_otaa_identity(LORA_appEUI,LORA_appKEY,dev_eui));
 		vTaskDelay(1);
 		printf("Saving mac returned code: %d\n",lora_driver_save_mac());
 		vTaskDelay(1);
 		printf("Joining Lora with OTAA returned code: %d\n",lora_driver_join(LoRa_OTAA));
 		vTaskDelay(1);
-		_uplink_payload.len = 6; // Length of the actual payload
-		_uplink_payload.port_no = 1; // The LoRaWAN port no to sent the message to
-		
+		_uplink_payload.len = QUEUE_READINGS_NUMBER*2; // Length of the actual payload
+		_uplink_payload.port_no = 2; // The LoRaWAN port no to sent the message to
+		xSemaphoreGive(xSemaphore);
 	// the sending "task" has to be started here (not in a separate task) as we 
 	// don't want it to be executed in the meantime of delays of this one
 	struct reading single_reading;

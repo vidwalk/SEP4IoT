@@ -13,7 +13,6 @@ void light_callback(tsl2591ReturnCode_t rc);
 TaskHandle_t xGet_Light_Handler = NULL;
 QueueHandle_t xSendingQueue;
 bool _writeFlag;
-float _tmp;
 float _lux;
 struct reading measurmentLightRaw;
 
@@ -35,10 +34,10 @@ void _vTaskGetLight(void* pvParameters){
 	while(1){
 		
 		tsl2591FetchData();
-		vTaskDelay(50);
+		vTaskDelay(20);
 		measurmentLightRaw.readingLabel = LIGHT_LABEL;
-		measurmentLightRaw.value = _tmp;
-		if(!_writeFlag){ 
+		measurmentLightRaw.value = (uint16_t) _lux;
+		if(_writeFlag){ 
 			if(!xQueueSend(xSendingQueue, (void*)&measurmentLightRaw, 100)) {
 				printf("Failed to send light spec to the queue\n");
 				vTaskDelay(200);
@@ -53,7 +52,9 @@ void _vTaskGetLight(void* pvParameters){
 				vTaskDelay(2000);
 			};
 			} else {
+				
 			printf("LIGHT SENSOR: Write flag is false, cannot write things in the queue\n");
+			printf(" =========> The value of the LUX is: %d", (uint16_t) _lux);
 			vTaskDelay(100);
 		}
 	}

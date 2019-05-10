@@ -17,7 +17,7 @@
  #include <stdbool.h>
  #include <semphr.h>
  
- #define QUEUE_READINGS_NUMBER 3
+ #define QUEUE_READINGS_NUMBER 4
  
  #define TEMPERATURE_LABEL 0
  #define HUMIDITY_LABEL 2

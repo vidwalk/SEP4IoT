@@ -20,6 +20,7 @@
 #include "temp_hum_handler.h"
 #include "ios_io.h"
 #include "co2_handler.h"
+#include "motor_handler.h"
 
 QueueHandle_t xSendingQueue;
 bool _writeFlag; // indicates if sensor can write into the queue - if true then yes
@@ -32,7 +33,8 @@ int main(void)
 	create_lora_connection(initializeLora_TASK_PRIORITY, LED_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
 	initialize_temper_hum(Temperature_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
 	initialize_co2(CO2_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
-	//initialize_light(Light_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	initialize_light(Light_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
+	//initialize_motor(3);
 	vTaskStartScheduler();
     while (1) 
     {
