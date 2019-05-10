@@ -156,6 +156,9 @@
     <Compile Include="ios_io.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="IoTDrivers\rcServo.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="LightHandler.c">
       <SubType>compile</SubType>
     </Compile>
@@ -166,6 +169,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="lora_handler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MotorHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="motor_handler.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="reading.h">

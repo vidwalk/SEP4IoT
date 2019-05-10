@@ -1,12 +1,13 @@
 /**
 \file
-\brief Driver for the TSL2591 Light sensor.
 
 \author Ib Havn
 \version 1.0.0
 
 \defgroup tsl2591_driver Driver for TSL2591 Light sensor
 \{
+\brief Driver for the TSL2591 Light sensor.
+
 A little about light. Light is normally measured in LUX.
 Indoor and outdoor light conditions:
 | LUX | Condition |
@@ -51,9 +52,9 @@ Here you you will find the functions you normally will need.
 
 #ifndef TSL2591_H_
 #define TSL2591_H_
-#include <stdint.h>
-#include <stdbool.h>
 
+#include <stdbool.h>
+#include <stdint.h>
 /**
 \ingroup tsl2591_driver_structs
 \brief TSL2591 Gain configuration.
