@@ -26,7 +26,31 @@ public class AppFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstance)
     {
-        TextView textView = view.findViewById(R.id.fragText);
-        textView.setText(getArguments().getString("Message"));
+//        TextView textView = view.findViewById(R.id.fragText);
+//        textView.setText(getArguments().getString("Message"));
+
+        TextView textView = view.findViewById(R.id.titleView);
+        TextView textView2 = view.findViewById(R.id.description);
+
+        switch(getArguments().getInt("Page")){
+            case 1:
+                textView.setText("Temperature");
+                textView2.setText("Press the button to get the current temperature.");
+                break;
+            case 2:
+                textView.setText("Humidity");
+                textView2.setText("Press the button to get the current humidity.");
+                break;
+            case 3:
+                textView.setText("Carbon Dioxide");
+                textView2.setText("Press the button to get the current carbon dioxide levels.");
+                break;
+            case 4:
+                textView.setText("Sound");
+                textView2.setText("Press the button to get the current sound level.");
+                break;
+            default:
+                break;
+        }
     }
 }
