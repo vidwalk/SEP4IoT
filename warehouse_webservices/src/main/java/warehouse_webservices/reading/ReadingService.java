@@ -2,27 +2,25 @@ package warehouse_webservices.reading;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
-
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
+import warehouse_webservices.adapter.Adapter;
 import warehouse_webservices.adapter.DatabaseAdapter;
 
 @Service
 public class ReadingService
 {
-      private DatabaseAdapter adapter;
+      private Adapter adapter;
       
       public ReadingService() {
          adapter = new DatabaseAdapter();
       }
       
+      @SuppressWarnings("unchecked")
       public Reading getAll() throws SQLException{
-         String result = adapter.getAll();
-         String[] split = result.split(" ");
-         Reading reading = new Reading(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-         return reading;
-         
+         return (Reading) adapter.getAll();
+      }
+      
+      public ArrayList<Reading> getReading(String date) throws SQLException {
+         return (ArrayList<Reading>) adapter.getReading(date);
       }
 }
