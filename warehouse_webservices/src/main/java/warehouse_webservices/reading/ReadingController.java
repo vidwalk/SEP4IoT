@@ -1,15 +1,11 @@
 package warehouse_webservices.reading;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,9 +37,12 @@ public class ReadingController
          String response = new String(gson.toJson(readingService.getReading(id)));
          return response;
       }
-      @RequestMapping(method = RequestMethod.PUT, value ="/window/{command}")
-      public void operateWindow(@PathVariable String command) throws IOException {
-         System.out.println(command);
+      @RequestMapping(method = RequestMethod.PUT, value ="/window")
+      public void operateWindow(@RequestBody byte[] bytes) throws IOException {
+         
+         String message = new String(bytes);
+         message = gson.toJson(message);
+         System.out.println(message);
       }
       
       

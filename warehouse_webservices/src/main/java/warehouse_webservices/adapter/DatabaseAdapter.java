@@ -15,7 +15,7 @@ public class DatabaseAdapter implements Adapter
    
    public DatabaseAdapter() {
       connectionUrl = new String("jdbc:sqlserver://10.200.131.2:1433;"
-            + "database=climatizerDB;"
+            + "database=climatizerDimensional;"
             + "user=groupZ1;"
             + "password=groupZ1;"
             + "encrypt=false;"
@@ -31,18 +31,23 @@ public class DatabaseAdapter implements Adapter
       try (Connection connection = DriverManager.getConnection(connectionUrl);
             Statement statement = connection.createStatement();) {
 
-                  String selectSql = "SELECT TOP 1 DeviceId, Temperature, Sound, Humidity, CO2, Light, convert(varchar(8), "
-                        + "convert(time, [Date])) as [Time], convert(date, [Date]) as [Date] from climatizerDB.dbo.Reading ORDER BY Date desc";
+                  String selectSql = 
+                          "SELECT TOP 1 Time30, convert(date, CalendarDate) as [Date], CO2Value, HumidityValue, TemperatureValue, LightValue "
+                        + "FROM climatizerDimensional.dbo.F_Reading "
+                        + "JOIN D_Date ON D_Date.DateKey = F_Reading.DateKey "
+                        + "JOIN D_Time ON D_Time.TimeKey = F_Reading.TimeKey "
+                        + "ORDER BY Date desc, Time30 desc";
+
                   ResultSet resultSet = statement.executeQuery(selectSql);
                   
                   while (resultSet.next()) {
-                     reading = new Reading(Integer.parseInt(resultSet.getString(1)));
-                     reading.setTemperature(Float.parseFloat(resultSet.getString(2)));
-                     reading.setSound(Float.parseFloat(resultSet.getString(3)));
-                     reading.setHumidity(Float.parseFloat(resultSet.getString(4)));
-                     reading.setCo2(Float.parseFloat(resultSet.getString(5)));
+                     reading = new Reading();
+                     reading.setDatetime(resultSet.getString(1) + " " + resultSet.getString(2));
+                     reading.setCo2(Float.parseFloat(resultSet.getString(3)));
+                     reading.setHumidity(Float.parseFloat(resultSet.getString(4)));                     
+                     reading.setTemperature(Float.parseFloat(resultSet.getString(5)));                 
                      reading.setLight(Float.parseFloat(resultSet.getString(6)));
-                     reading.setDatetime(resultSet.getString(7) + " " + resultSet.getString(8));
+                     
                   }
                   
                   return reading;
@@ -62,19 +67,22 @@ public class DatabaseAdapter implements Adapter
      try (Connection connection = DriverManager.getConnection(connectionUrl);
            Statement statement = connection.createStatement();) {
 
-                 String selectSql = "SELECT DeviceId, Temperature, Sound, Humidity, CO2, Light, convert(varchar(8), "
-                       + "convert(time, [Date])) as [Time], convert(date, [Date]) as [Date] from climatizerDB.dbo.Reading"
-                       + " WHERE convert(date, [Date]) between '" + something + "' and '" + something + "' ORDER BY Time desc";
+                 String selectSql = 
+                         "SELECT Time30, convert(date, CalendarDate) as [Date], CO2Value, HumidityValue, TemperatureValue, LightValue "
+                       + "FROM climatizerDimensional.dbo.F_Reading "
+                       + "JOIN D_Date ON D_Date.DateKey = F_Reading.DateKey "
+                       + "JOIN D_Time ON D_Time.TimeKey = F_Reading.TimeKey "
+                       + "WHERE convert(date, [CalendarDate]) BETWEEN '" + something + "' AND '" + something + "' ORDER BY Time30 desc";
+                 
                  ResultSet resultSet = statement.executeQuery(selectSql);
                  Reading reading;
                  while (resultSet.next()) {
-                    reading = new Reading(Integer.parseInt(resultSet.getString(1)));
-                    reading.setTemperature(Float.parseFloat(resultSet.getString(2)));
-                    reading.setSound(Float.parseFloat(resultSet.getString(3)));
-                    reading.setHumidity(Float.parseFloat(resultSet.getString(4)));
-                    reading.setCo2(Float.parseFloat(resultSet.getString(5)));
+                    reading = new Reading();
+                    reading.setDatetime(resultSet.getString(1) + " " + resultSet.getString(2));
+                    reading.setCo2(Float.parseFloat(resultSet.getString(3)));
+                    reading.setHumidity(Float.parseFloat(resultSet.getString(4)));                     
+                    reading.setTemperature(Float.parseFloat(resultSet.getString(5)));                 
                     reading.setLight(Float.parseFloat(resultSet.getString(6)));
-                    reading.setDatetime(resultSet.getString(7) + " " + resultSet.getString(8));
                     readings.add(reading);
                  }
                  
