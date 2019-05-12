@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,10 +18,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.application.cmapp.R;
+import com.application.cmapp.activities.fragments.SettingsFragment;
 import com.application.cmapp.model.Reading;
 import com.application.cmapp.viewmodel.LogInViewModel;
 import com.application.cmapp.viewmodel.ReadingViewModel;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     Button getReading, getReadings, openWindow, gotoLogin;
     Reading reading = new Reading(0, 0,0 ,0, "");
     ArrayList<Reading> readings = new ArrayList<Reading>();
+    private View fadeBackground;
 
     TextView email;
     Button adminButton;
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ReadingViewModel viewModel;
     private LogInViewModel logInViewModel;
+    private FrameLayout settingsFragmentPlaceholder;
     private static MainActivity instance;
 
     @Override
@@ -66,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fadeBackground = findViewById(R.id.fadeBackground);
+
         Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
 
@@ -73,8 +81,12 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         vPager.setAdapter(adapter);
 
+        settingsFragmentPlaceholder = findViewById(R.id.settingsFragmentPlaceholder);
+
         //Login elements
         adminButton = findViewById(R.id.ButtonForAdmins);
+        //adminButton.setVisibility(View.GONE);
+
 
         TabLayout tabs = findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(vPager);
@@ -96,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 //        temperature.setText("Temperature: ");
 
         getReading = findViewById(R.id.getReading);
+
 
         viewModel = ViewModelProviders.of(this).get(ReadingViewModel.class);
         logInViewModel = ViewModelProviders.of(this).get(LogInViewModel.class);
@@ -187,35 +200,35 @@ public class MainActivity extends AppCompatActivity {
 
 
         //LOGIN
-        MutableLiveData<String> readingLoginLiveData = logInViewModel.getAdminIsLoggedInCheck();
-        MutableLiveData<String> readingSignOutLiveData = logInViewModel.AdminSignOut();
+        //Checking on startup for already being signed in
+       String checker =  logInViewModel.getAdminIsLoggedInCheck();
+       if (checker.matches("loggedout") || checker.matches("failed") || checker.matches("invalid"))
+           adminButton.setVisibility(View.GONE);
+       else
+           adminButton.setVisibility(View.VISIBLE);
 
-        readingSignOutLiveData.observe(this, new Observer<String>()
+
+
+        MutableLiveData<String> loginLiveData = logInViewModel.getLoginLiveData();
+        //MutableLiveData<String> readingSignOutLiveData = logInViewModel.AdminSignOut();
+
+
+        loginLiveData.observe(this, new Observer<String>()
         {
             public void onChanged(String s)
             {
-               // email.setText(s);
-            }
-        });
-
-        readingLoginLiveData.observe(this, new Observer<String>()
-        {
-            public void onChanged( String s)
-            {
-                //email.setText(s);
-
-                /*
-                if (email.getText().toString().equals("Anonymous user"))
+                Log.d("cacat", s);
+                if (s.matches("loggedout")) {
+                    adminButton.setVisibility(View.GONE);
+                }
+                else if (s.matches("invalid") || s.matches("failed"))
                 {
                     adminButton.setVisibility(View.GONE);
                 }
-
-                else {
+                else
+                {
                     adminButton.setVisibility(View.VISIBLE);
                 }
-*/
-
-
             }
         });
 
@@ -238,13 +251,23 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.action_settings:
-               // Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-               // startActivity(i);
-                //User chooses the "Settings" item, show the app settings UI
+                //Add settings fragment but check if it already exists
+                fragment = getSupportFragmentManager().findFragmentById(R.id.settingsFragmentPlaceholder);
+                if (fragment instanceof SettingsFragment)
+                    return true;
+                else
+            {
+                fadeBackground();
+                fragment = new SettingsFragment();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.settingsFragmentPlaceholder, fragment);
+                ft.commit();
+            }
                 return true;
             case R.id.action_login:
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -278,7 +301,34 @@ public class MainActivity extends AppCompatActivity {
         return viewModel;
     }
 
+    public void fadeBackground()
+    {
+        settingsFragmentPlaceholder.setClickable(true);
+        fadeBackground.animate().alpha(0.5f); //grey out value
 
+    }
+
+    public void unFadeBackground()
+    {
+        settingsFragmentPlaceholder.setClickable(false);
+        fadeBackground.animate().alpha(0.0f);
+    }
+
+    //Make sure app doesn't close due to pressing back.
+    @Override
+    public void onBackPressed()
+    {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.settingsFragmentPlaceholder);
+        if (fragment instanceof SettingsFragment)
+        {
+            unFadeBackground();
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
 
 
 

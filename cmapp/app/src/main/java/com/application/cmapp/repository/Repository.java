@@ -1,10 +1,12 @@
 package com.application.cmapp.repository;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.application.cmapp.firebase.FirebaseClient;
+import com.application.cmapp.firebase.FirebaseCallback;
 import com.application.cmapp.network.Adapter;
 import com.application.cmapp.model.Reading;
 import com.application.cmapp.network.WebAPIClient;
@@ -13,11 +15,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Repository {
 
@@ -31,9 +30,13 @@ public class Repository {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = mAuth.getCurrentUser(); // may be null if admin is not logged in
-    private MutableLiveData<String> liveDataLogin = new MutableLiveData<String>();
+
+    //private MutableLiveData<String> liveDataLogin = new MutableLiveData<String>();
+    public MutableLiveData<String> liveDataLogin = new MutableLiveData<String>();
     public boolean reply;
     private FirebaseClient fbClient = new FirebaseClient();
+    private FirebaseClient.LogOutAsyncTask logOutAsyncTask;
+   // private LogOutAsyncTask logOutTask ;
 
 
     private Repository()
@@ -124,39 +127,64 @@ public class Repository {
 
 //Add firebase communication for login.
 
-    public void AdminLogin(final String userEmail, String userPass)  //changes LD
+    public void AdminLogin(final String userEmail, final String userPass)  //changes LD
     {
 
-        liveDataLogin.postValue(fbClient.AdminLogin(userEmail, userPass));
+        fbClient.AdminLogin(userEmail, userPass, new FirebaseCallback() {
+
+            @Override
+            public void onResponseReceived()
+            {
+                liveDataLogin.postValue(userEmail);
+            }
+
+            @Override
+            public void onFailed()
+            {
+                liveDataLogin.postValue("invalid");
+            }
+
+        });
+        //liveDataLogin.postValue(fbClient.AdminLogin(userEmail, userPass));
 
     }
 
-    public MutableLiveData<String> AdminIsLoggedInCheck()
+    public String AdminIsLoggedInCheck()
     {
 
-        liveDataLogin.postValue(fbClient.AdminIsLoggedInCheck());
+        return fbClient.AdminIsLoggedInCheck();
 
+    }
+
+
+    public void AdminSignOut()
+    {
+
+        logOutAsyncTask = fbClient. new LogOutAsyncTask() {
+            @Override
+            public void onResponseReceived()
+            {
+                liveDataLogin.postValue("loggedout");
+            }
+
+            @Override
+            public void onFailed()
+            {
+                liveDataLogin.postValue("failed");
+            }
+        };
+
+        logOutAsyncTask.execute();
+        //return liveDataLogin;
+
+    }
+
+
+    public MutableLiveData<String> getLiveDataLogin()
+    {
         return liveDataLogin;
-
     }
 
 
-    public MutableLiveData<String> AdminSignOut()
-    {
-        Log.i("repoSignout=====", "reaches");
-        fbClient.AdminSignOut();
-        liveDataLogin.postValue(fbClient.AdminIsLoggedInCheck());
-
-        return liveDataLogin;
-
-    }
-
-
-    public MutableLiveData<String> getAdminLogin(String userEmail, String userPass)
-    {
-        Log.i("Repo_getAdminLogin===", "reaches");
-        AdminLogin( userEmail,  userPass);   //calls LD change
-        return liveDataLogin;                 //return LD
-    }
 
 }

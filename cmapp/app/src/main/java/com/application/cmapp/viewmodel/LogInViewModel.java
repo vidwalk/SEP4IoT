@@ -14,22 +14,24 @@ public class LogInViewModel extends ViewModel {
     private final Repository repository = Repository.getInstance();
 
 
-    @NonNull
-    public MutableLiveData<String> getLoginLiveData(String userEmail, String userPass)
+    public void adminLogIn(String userEmail, String userPass)
     {
-        Log.i("VM=====", "reaches");
-        return repository.getAdminLogin(userEmail,userPass);
+        repository.AdminLogin(userEmail, userPass);
     }
 
-    public MutableLiveData<String> getAdminIsLoggedInCheck()
+    public String getAdminIsLoggedInCheck()
     {
-        return repository.AdminIsLoggedInCheck();
+       return repository.AdminIsLoggedInCheck();
     }
 
-    public MutableLiveData<String>  AdminSignOut()
+    public void  AdminSignOut()
     {
-        Log.i("VMquit=====", "reaches");
-        return repository.AdminSignOut();
+        repository.AdminSignOut();
+    }
+
+    public MutableLiveData<String> getLoginLiveData()
+    {
+        return repository.getLiveDataLogin();
     }
 
 }

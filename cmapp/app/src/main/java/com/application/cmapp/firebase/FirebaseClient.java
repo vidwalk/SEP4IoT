@@ -1,15 +1,12 @@
 package com.application.cmapp.firebase;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 
+import com.application.cmapp.repository.Repository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -17,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONException;
 
 public class FirebaseClient {
 
@@ -26,11 +25,13 @@ public class FirebaseClient {
     public String loginReply = "Not logged in.";
     public DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
 
-
-
-    public String AdminLogin (final String userEmail, String userPass)  //changes LD
+    public FirebaseClient()
     {
-        Log.i("FirebaseClientStart====", "reaches");
+
+    }
+
+    public void AdminLogin (final String userEmail, String userPass, final FirebaseCallback firebaseCallback)  //changes LD
+    {
 
         mAuth.signInWithEmailAndPassword(userEmail, userPass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -38,18 +39,17 @@ public class FirebaseClient {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if(task.isSuccessful()){
-                            loginReply = userEmail;
+                            //loginReply = userEmail;
+                            firebaseCallback.onResponseReceived();
 
                         }
                         else{
-                            loginReply = "Not logged in.";
+                            //loginReply = "Failed Login";
+                            firebaseCallback.onFailed();
                         }
                     }
                 });
 
-
-        Log.i("loginReply====",loginReply+"");
-        return loginReply;
     }
 
 
@@ -59,13 +59,12 @@ public class FirebaseClient {
     @SuppressLint("LongLogTag")
     public String AdminIsLoggedInCheck()
     {
-        Log.i("CheckASO===", "reaches");
+
         if(firebaseUser != null){
             return (firebaseUser.getEmail());
         }
         else{
-            return "Anonymous user";
-
+            return "loggedout";
         }
 
 
@@ -74,10 +73,33 @@ public class FirebaseClient {
     public void AdminSignOut()
     {
         mAuth.signOut();
-        if (firebaseUser == null) {
-            Log.i("SIGNOUT=====", "success");
-        }
     }
 
+    public class LogOutAsyncTask extends AsyncTask<String, String, String> implements FirebaseCallback {
+
+        @Override
+        protected String doInBackground(String... strings)
+        {
+            AdminSignOut();
+            return "loggedout";
+        }
+
+        @Override
+        protected void onPostExecute(String jsonString)
+        {
+            onResponseReceived();
+        }
+
+        @Override
+        public void onResponseReceived()
+        {
+        }
+
+        @Override
+        public void onFailed()
+        {
+
+        }
+    }
 
 }
