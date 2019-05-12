@@ -3,6 +3,7 @@ package com.application.cmapp.activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -12,6 +13,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     TextView temperature, deviceNo, sound, co2, humidity, datetime, date;
     //Reading reading;
     Button getReading, getReadings, openWindow, gotoLogin;
-    Reading reading;
+    Reading reading = new Reading(0, 0,0 ,0, "");
     ArrayList<Reading> readings = new ArrayList<Reading>();
 
     TextView email;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ReadingViewModel viewModel;
     private LogInViewModel logInViewModel;
+    private static MainActivity instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         //StrictMode.setThreadPolicy(policy);
+
+        instance = this;
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -66,13 +74,11 @@ public class MainActivity extends AppCompatActivity {
         vPager.setAdapter(adapter);
 
         //Login elements
-        email = findViewById(R.id.adminEmail);
         adminButton = findViewById(R.id.ButtonForAdmins);
 
         TabLayout tabs = findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(vPager);
 
-        gotoLogin = findViewById(R.id.gotoLogin);
         /*
         temperature = findViewById(R.id.temperature);
         deviceNo = findViewById(R.id.devicenumber);
@@ -89,8 +95,23 @@ public class MainActivity extends AppCompatActivity {
 */
 //        temperature.setText("Temperature: ");
 
+        getReading = findViewById(R.id.getReading);
+
         viewModel = ViewModelProviders.of(this).get(ReadingViewModel.class);
         logInViewModel = ViewModelProviders.of(this).get(LogInViewModel.class);
+
+
+        //Get latest reading
+        try {
+
+            viewModel.getReading("http://192.168.185.213:8080/readings");
+        } catch (IOException ex){
+            ex.printStackTrace();
+        }
+
+
+
+
 
         gotoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,21 +123,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        /*
-        //Most Recent Reading.
+
+        //Most Recent Reading refresh button
         getReading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     //Get reading
-                    viewModel.getReading("http://10.152.194.100:8080/readings");
+                    //viewModel.sendOpenWindow("http://10.152.194.18:8080/window");
+                  //  Log.d("cacat", "pisat");
+                  //
+                    viewModel.getReading("http://192.168.185.213:8080/readings");
                 }
                 catch (IOException ex){
                     ex.printStackTrace();
                 }
             }
         });
-
+/*
         //Multiple Readings
         getReadings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,32 +230,64 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+
+    @Override
+    //inflate toolbar
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_items,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    //Top bar item selection
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        Fragment fragment = null;
+        switch(item.getItemId())
+        {
+            case R.id.action_settings:
+               // Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+               // startActivity(i);
+                //User chooses the "Settings" item, show the app settings UI
+                return true;
+            case R.id.action_login:
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 
     public void updateCurrentReading(Reading reading)
     {
         this.reading = reading;
-        temperature.setText(String.valueOf(reading.getTemperature()));
-        humidity.setText(String.valueOf(reading.getHumidity()));
-        datetime.setText(reading.getDateTime());
-        co2.setText(String.valueOf(reading.getCo2()));
-        sound.setText(String.valueOf(reading.getSound()));
-        deviceNo.setText(String.valueOf(reading.getDeviceNo()));
-
     }
 
     public void updateCurrentReadings(ArrayList<Reading> readings)
     {
-        Log.d("cacat", readings.toString());
-        temperature.setText(String.valueOf(readings.get(0).getTemperature()));
+        this.readings = readings;
     }
 
 
+    public Reading getLatestReading()
+    {
+        return reading;
+    }
 
 
+    public static MainActivity getInstance()
+    {
+        return instance;
+    }
 
-
+    public ReadingViewModel getViewModel()
+    {
+        return viewModel;
+    }
 
 
 

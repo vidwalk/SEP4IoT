@@ -22,7 +22,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         AppFragment testFrag = new AppFragment();
         position = position + 1;
         Bundle bundle = new Bundle();
-        bundle.putString("Message", "Fragment: " + position);
+        bundle.putInt("Message", position);
         testFrag.setArguments(bundle);
         return testFrag;
     }
@@ -45,7 +45,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return "CO2";
             case 4:
-                return "Sound";
+                return "Light";
             default:
                 break;
         }

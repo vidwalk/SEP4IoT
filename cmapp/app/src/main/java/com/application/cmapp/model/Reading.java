@@ -2,26 +2,20 @@ package com.application.cmapp.model;
 
 public class Reading {
 
-    private double temperature, humidity, co2, sound;
+    private double temperature, humidity, co2, light;
     private String dateTime;
-    private int deviceNo;
 
-    public Reading(double temperature,int deviceNo, double humidity, double co2, double sound, String dateTime)
+    public Reading(double temperature, double humidity, double co2, double light, String dateTime)
     {
         this.temperature = temperature;
-        this.deviceNo = deviceNo;
         this.humidity = humidity;
         this.co2 = co2;
-        this.sound = sound;
+        this.light = light;
         this.dateTime = dateTime;
     }
 
     public double getTemperature() {
         return temperature;
-    }
-
-    public int getDeviceNo() {
-        return deviceNo;
     }
 
     public double getHumidity() {
@@ -32,8 +26,8 @@ public class Reading {
         return co2;
     }
 
-    public double getSound() {
-        return sound;
+    public double getLight() {
+        return light;
     }
 
     public String getDateTime() {
@@ -54,19 +48,14 @@ public class Reading {
         this.co2 = co2;
     }
 
-    public void setSound(double sound)
+    public void setLight(double light)
     {
-        this.sound = sound;
+        this.light = light;
     }
 
     public void setDateTime(String dateTime)
     {
         this.dateTime = dateTime;
-    }
-
-    public void setDeviceNo(int deviceNo)
-    {
-        this.deviceNo = deviceNo;
     }
 
 }

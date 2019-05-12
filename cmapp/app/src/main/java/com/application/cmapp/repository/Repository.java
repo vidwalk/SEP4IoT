@@ -61,7 +61,7 @@ public class Repository {
             public void onFailed()
             {
                 //Default values if response failed.
-                liveReadingData.postValue(new Reading(999, 999, 999, 999, 999, ""));
+                liveReadingData.postValue(new Reading(999, 999, 999, 999, ""));
             }
         };
         //Execute the task.
@@ -82,7 +82,10 @@ public class Repository {
             public void onFailed()
             {
                 //Default values if response failed.
-            liveMultipleReadings.postValue(new ArrayList<Reading>());
+                ArrayList<Reading> failedArray = new ArrayList<Reading>();
+                failedArray.add(new Reading(0, 0, 0, 0, ""));
+
+            liveMultipleReadings.postValue(failedArray);
             }
 
         };

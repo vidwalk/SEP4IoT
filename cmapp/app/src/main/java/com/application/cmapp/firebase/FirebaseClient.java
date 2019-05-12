@@ -23,7 +23,7 @@ public class FirebaseClient {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = mAuth.getCurrentUser(); // may be null if admin is not logged in
-    public String loginReply = "Anonymous user0";
+    public String loginReply = "Not logged in.";
     public DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
 
 
@@ -42,7 +42,7 @@ public class FirebaseClient {
 
                         }
                         else{
-                            loginReply = "Anonymous user";
+                            loginReply = "Not logged in.";
                         }
                     }
                 });

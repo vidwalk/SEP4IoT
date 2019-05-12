@@ -18,7 +18,7 @@ public class Adapter {
     public Reading makeReading(String jsonString) throws JSONException {
 
 
-        reading = new Reading(0, 0, 0, 0, 0, "0");
+        reading = new Reading(0, 0, 0, 0, "");
         try{
             latestReading = new JSONObject(jsonString);
             //JSONArray readings = root.getJSONArray(0);
@@ -28,8 +28,8 @@ public class Adapter {
             reading.setTemperature(Double.parseDouble(latestReading.getString("temperature")));
             reading.setCo2(Double.parseDouble(latestReading.getString("co2")));
             reading.setHumidity(Double.parseDouble(latestReading.getString("humidity")));
-            reading.setSound(Double.parseDouble(latestReading.getString("sound")));
-            reading.setDeviceNo(Integer.parseInt(latestReading.getString("device")));
+            reading.setLight(Double.parseDouble(latestReading.getString("light")));
+        //    reading.setDeviceNo(Integer.parseInt(latestReading.getString("device")));
             reading.setDateTime(latestReading.getString("datetime"));
         } catch (JSONException e)
         {
@@ -40,6 +40,7 @@ public class Adapter {
 
     public ArrayList<Reading> makeMultipleReadings(String jsonString) throws JSONException {
         multipleLiveReadings = new ArrayList<Reading>();
+        multipleLiveReadings.add(new Reading(0, 0, 0, 0, ""));
 
         try {
             root = new JSONArray(jsonString);
@@ -52,10 +53,9 @@ public class Adapter {
                 double temp = Double.parseDouble(object.getString("temperature"));
                 double co2 = Double.parseDouble(object.getString("co2"));
                 double hum = Double.parseDouble(object.getString("humidity"));
-                double sound = Double.parseDouble(object.getString("sound"));
-                int devno = Integer.parseInt(object.getString("device"));
+                double light = Double.parseDouble(object.getString("light"));
                 String datetime = object.getString("datetime");
-                Reading reading = new Reading(temp, devno, hum, sound, co2, datetime);
+                Reading reading = new Reading(temp, hum, light, co2, datetime);
                 multipleLiveReadings.add(reading);
             }
         } catch (JSONException e)

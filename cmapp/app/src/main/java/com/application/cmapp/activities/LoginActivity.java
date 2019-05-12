@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -41,10 +42,22 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                viewModel.getLoginLiveData(userEmail.getText().toString(), userPass.getText().toString());
-                Log.i("ActivityLogIn=====", "reaches");
+                if (userEmail.getText().toString().matches(""))
+                {
+                   Toast toast = Toast.makeText(LoginActivity.this, "Please provide an e-mail!", Toast.LENGTH_SHORT);
+                   toast.show();
+                }
+                else if (userPass.getText().toString().matches(""))
+                {
+                    Toast toast = Toast.makeText(LoginActivity.this, "Please provide a password!", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else{
+                    viewModel.getLoginLiveData(userEmail.getText().toString(), userPass.getText().toString());
+                    Log.i("ActivityLogIn=====", "reaches");
 
-                finish();
+                    finish();
+                }
             }
         });
 
