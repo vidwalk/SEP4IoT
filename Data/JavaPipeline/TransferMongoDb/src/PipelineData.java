@@ -68,7 +68,7 @@ public class PipelineData extends TimerTask {
 				double light = (double) document.get("light");
 				String device = (String) document.get("device");
 				
-				// Remove one hour from the time
+				// Remove two hours from the time
 				Timestamp date = new Timestamp(((Date) document.get("date")).getTime() - 2*60 * 60 * 1000);
 				
 
@@ -103,8 +103,8 @@ public class PipelineData extends TimerTask {
 		TimerTask timerTask = new PipelineData();
 		// running timer task as daemon thread
 		Timer timer = new Timer(true);
-		// Scheduled at 30 seconds
-		timer.scheduleAtFixedRate(timerTask, 0, 30 * 1000);
+		// Scheduled at 1 hour
+		timer.scheduleAtFixedRate(timerTask, 0, 60 * 60 * 1000);
 		System.out.println("TimerTask started");
 		// cancel after 24 hours = (60000 * 60) * 24
 		// 60000 = 60 seconds = 1 minute
