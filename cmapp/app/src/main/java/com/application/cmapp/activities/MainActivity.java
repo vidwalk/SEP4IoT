@@ -112,18 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-        gotoLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
-            }
-        });
-
-
-
         //Most Recent Reading refresh button
         getReading.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         {
             public void onChanged(String s)
             {
-                email.setText(s);
+               // email.setText(s);
             }
         });
 
@@ -214,8 +202,9 @@ public class MainActivity extends AppCompatActivity {
         {
             public void onChanged( String s)
             {
-                email.setText(s);
+                //email.setText(s);
 
+                /*
                 if (email.getText().toString().equals("Anonymous user"))
                 {
                     adminButton.setVisibility(View.GONE);
@@ -224,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     adminButton.setVisibility(View.VISIBLE);
                 }
-
+*/
 
 
             }
