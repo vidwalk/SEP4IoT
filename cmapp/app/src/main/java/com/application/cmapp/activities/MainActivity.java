@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //main menu inflater
+    @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -224,6 +225,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.settingsButton:
                 Intent intent = new Intent(MainActivity.this, null);
                 startActivity(intent);
+                return true;
+
+            case R.id.gotoLogin:
+                Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent2);
                 return true;
 
             default:

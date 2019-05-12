@@ -7,5 +7,10 @@
         android:title="Settings"
         android:icon="@drawable/ic_baseline_settings_20px"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/gotoLogin"
+        android:title="Login"
+        app:showAsAction="never"
+        />
 
 </menu>
