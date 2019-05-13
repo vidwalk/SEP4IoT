@@ -9,7 +9,7 @@ convert(date, [Date]) as [Date],
 CO2,
 Humidity,
 Temperature,
-LightValue
+Light
 FROM climatizerDB.dbo.Reading
 WHERE [Date] > (SELECT lastUpdate FROM DateUpdate)
 
