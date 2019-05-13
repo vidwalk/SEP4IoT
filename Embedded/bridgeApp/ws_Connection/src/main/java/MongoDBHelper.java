@@ -25,6 +25,7 @@ public class MongoDBHelper {
 
         MongoCollection<Document> collection = database.getCollection("Climatizer");
         LocalDateTime now = LocalDateTime.now();
+
         Document document = new Document("temperature", json.get("temperature"))
                 .append("humidity", json.get("humidity"))
                 .append("CO2", json.get("CO2"))

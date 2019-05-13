@@ -44,17 +44,13 @@ public class UplinkMessageFormatter {
             }
         }
 
-        //Getting current date and time
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-
         //Creating a Json that will be sent to MongoDB
         String outJsonString = new JSONObject()
                 .put("temperature", temperature)
                 .put("humidity", humidity)
                 .put("CO2", co2)
                 .put("light", light)
-                .put("date", now)
+                .put("date", "")
                 .put("device", EUI).toString();
 
         System.out.println(outJsonString);

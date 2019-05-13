@@ -82,7 +82,7 @@ public class LoRaClient implements WebSocket.Listener{
     };
     //sendText
     public CompletionStage<WebSocket> sendText() {
-        System.out.println("Hello from send message");
+        System.out.println("A message is sent to LoRaWan");
         return webSocket.sendText(openWindowMessage, true);
     };
 }
