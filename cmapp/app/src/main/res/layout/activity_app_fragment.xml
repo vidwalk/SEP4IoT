@@ -11,11 +11,11 @@
         android:id="@+id/titleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="120dp"
         android:text="TITLE"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +45,7 @@
         android:id="@+id/readButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="216dp"
         android:text="Refresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -56,13 +56,12 @@
         android:id="@+id/windowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="Open Window"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/readButton"
-        app:layout_constraintVertical_bias="0.073" />
+        app:layout_constraintTop_toBottomOf="@+id/readButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

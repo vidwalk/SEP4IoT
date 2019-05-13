@@ -26,9 +26,6 @@ public class AppFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstance)
     {
-//        TextView textView = view.findViewById(R.id.fragText);
-//        textView.setText(getArguments().getString("Message"));
-
         TextView textView = view.findViewById(R.id.titleView);
         TextView textView2 = view.findViewById(R.id.description);
 

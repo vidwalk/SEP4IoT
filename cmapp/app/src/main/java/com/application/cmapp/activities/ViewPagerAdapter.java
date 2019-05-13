@@ -22,8 +22,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         AppFragment testFrag = new AppFragment();
         position = position + 1;
         Bundle bundle = new Bundle();
-//        bundle.putString("Message", "Fragment: " + position);
-
         bundle.putInt("Page", position);
         testFrag.setArguments(bundle);
         return testFrag;

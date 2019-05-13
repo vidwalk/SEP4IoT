@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,14 +9,14 @@
 
     <Button
         android:id="@+id/gotoLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="86dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:text="Go To Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
@@ -28,9 +29,10 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/include" />
+        app:layout_constraintTop_toTopOf="@+id/include"
+        app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -43,31 +45,457 @@
         app:tabSelectedTextColor="@color/colorAccent" />
 
 
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="349dp"
+        android:layout_height="112dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintVertical_bias="0.67">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00" />
+
+                <TextView
+                    android:id="@+id/display0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1:00" />
+
+                <TextView
+                    android:id="@+id/display1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2:00" />
+
+                <TextView
+                    android:id="@+id/display2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3:00" />
+
+                <TextView
+                    android:id="@+id/display3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4:00" />
+
+                <TextView
+                    android:id="@+id/display4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5:00" />
+
+                <TextView
+                    android:id="@+id/display5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6:00" />
+
+                <TextView
+                    android:id="@+id/display6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7:00" />
+
+                <TextView
+                    android:id="@+id/display7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8:00" />
+
+                <TextView
+                    android:id="@+id/display8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="9:00" />
+
+                <TextView
+                    android:id="@+id/display9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10:00" />
+
+                <TextView
+                    android:id="@+id/display10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11:00" />
+
+                <TextView
+                    android:id="@+id/display11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:00" />
+
+                <TextView
+                    android:id="@+id/display12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="13:00" />
+
+                <TextView
+                    android:id="@+id/display13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14:00" />
+
+                <TextView
+                    android:id="@+id/display14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15:00" />
+
+                <TextView
+                    android:id="@+id/display15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16:00" />
+
+                <TextView
+                    android:id="@+id/display16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="17:00" />
+
+                <TextView
+                    android:id="@+id/display617"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18:00" />
+
+                <TextView
+                    android:id="@+id/display18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="19:00" />
+
+                <TextView
+                    android:id="@+id/display19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20:00" />
+
+                <TextView
+                    android:id="@+id/display20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="21:00" />
+
+                <TextView
+                    android:id="@+id/display21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="22:00" />
+
+                <TextView
+                    android:id="@+id/display22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23:00" />
+
+                <TextView
+                    android:id="@+id/display23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is a Text View" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
     <TextView
         android:id="@+id/adminEmail"
-        android:layout_width="364dp"
-        android:layout_height="46dp"
+        android:layout_width="155dp"
+        android:layout_height="8dp"
         android:layout_marginStart="28dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:hint="Admin email"
         android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/ButtonForAdmins"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/ButtonForAdmins"
-        android:layout_width="174dp"
-        android:layout_height="68dp"
+        android:layout_width="104dp"
+        android:layout_height="34dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
 
         android:text="Button for Admins"
         app:layout_constraintBottom_toTopOf="@+id/gotoLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.036"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

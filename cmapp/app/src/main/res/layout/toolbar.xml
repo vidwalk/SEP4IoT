@@ -8,4 +8,5 @@
     android:background="?attr/colorPrimary"
     android:theme="@style/ToolbarTheme"
     android:elevation="4dp"
-    app:title="@string/app_name"/>
+    app:title="@string/app_name"
+    app:titleTextAppearance="@style/ToolbarText"/>
