@@ -1,4 +1,4 @@
-package wsConnection;
+package connection.spring.wsConnection;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -18,11 +18,10 @@ public class MongoDBHelper {
         JSONObject json = new JSONObject(data);
 
         MongoClientURI uri = new MongoClientURI(
-                "mongodb+srv://groupZ1:groupZ1@iotzuperteam-no7vb.mongodb.net/test?retryWrites=true");
+                "mongodb+srv://groupZ1:groupZ1@iotzuperteam-no7vb.mongodb.net/admin?retryWrites=true");
 
         MongoClient mongoClient = new MongoClient(uri);
         MongoDatabase database = mongoClient.getDatabase("ClimatizerDB");
-
         System.out.println("Connected to the database successfully");
 
         MongoCollection<Document> collection = database.getCollection("Climatizer");

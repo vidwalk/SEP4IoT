@@ -1,4 +1,4 @@
-package wsConnection;
+package connection.spring.wsConnection;
 
 import org.json.JSONObject;
 

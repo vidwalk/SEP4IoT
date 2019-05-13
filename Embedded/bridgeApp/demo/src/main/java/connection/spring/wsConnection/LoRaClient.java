@@ -1,4 +1,4 @@
-package wsConnection;
+package connection.spring.wsConnection;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +73,7 @@ public class LoRaClient implements WebSocket.Listener{
         if(!cmd.equals("tx")) {
             webSocket.request(1);
             String cleanMessage = UplinkMessageFormatter.receiveMessage(data);
-            dbHelper.send(cleanMessage);
+            //dbHelper.send(cleanMessage);
         } else {
             System.out.println("The message received is an echo from LoRa.");
         }
