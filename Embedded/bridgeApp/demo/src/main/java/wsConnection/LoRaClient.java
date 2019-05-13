@@ -38,7 +38,6 @@ public class LoRaClient implements WebSocket.Listener{
         System.out.println("WebSocket Listener has been opened for requests.");
         this.webSocket = webSocket;
     }
-
     //onError()
     public void onError​(WebSocket webSocket, Throwable error) {
         System.out.println("A " + error.getCause() + " exception was thrown.");
@@ -81,7 +80,6 @@ public class LoRaClient implements WebSocket.Listener{
         
         return null; // new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
     };
-
     //sendText
     public CompletionStage<WebSocket> sendText() {
         System.out.println("Hello from send message");
