@@ -1,6 +1,7 @@
 package com.application.cmapp.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,12 +20,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        AppFragment testFrag = new AppFragment();
-        position = position + 1;
-        Bundle bundle = new Bundle();
-        bundle.putInt("Message", position);
-        testFrag.setArguments(bundle);
-        return testFrag;
+
+
+        return new AppFragment(position);
     }
 
     @Override
@@ -35,16 +33,16 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int  position){
-        position = position + 1;
+       // position = position + 1;
 
         switch(position){
-            case 1:
+            case 0:
                 return "Degrees";
-            case 2:
+            case 1:
                 return "Humidity";
-            case 3:
+            case 2:
                 return "CO2";
-            case 4:
+            case 3:
                 return "Light";
             default:
                 break;

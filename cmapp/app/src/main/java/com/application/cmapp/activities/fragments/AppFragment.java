@@ -25,11 +25,13 @@ public class AppFragment extends Fragment {
 
     Reading currentReading;
     TextView dataDisplay;
+    int position;
     private String dataPart = "temp";
     public static AppFragment instance;
 
-    public AppFragment(){
+    public AppFragment(int position){
         //No-args constructor
+        this.position = position;
     }
 
     @Override
@@ -43,10 +45,30 @@ public class AppFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstance)
     {
 
+
+
+
         instance = this;
         currentReading = new Reading(0, 0,0 ,0, "");
 
         dataDisplay = view.findViewById(R.id.fragText);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+
+        SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                refreshTemp();
+            }
+        };
+
+        prefs.registerOnSharedPreferenceChangeListener(spChanged);
+
+
+
+
+
 
         ReadingViewModel viewModel = MainActivity.getInstance().getViewModel();
         //Make this activity observe the most recent reading mutableData
@@ -59,10 +81,12 @@ public class AppFragment extends Fragment {
                 //Update current reading
                 currentReading = reading;
 
-                switch (getArguments().getInt("Message"))
+                switch (position)
                 {
-                    case 1:
+
+                    case 0:
                         dataPart = "temp";
+
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
                         if (prefs.getBoolean("imperial", false) == false)
                         dataDisplay.setText(String.valueOf(currentReading.getTemperature())+" C"+"°");
@@ -70,15 +94,15 @@ public class AppFragment extends Fragment {
                             dataDisplay.setText(String.valueOf((currentReading.getTemperature()*9/5)+32)+" F"+"°");
                         break;
 
-                    case 2:
+                    case 1:
                         dataPart = "hum";
                         dataDisplay.setText(String.valueOf(currentReading.getHumidity()) +" %");
                         break;
-                    case 3:
+                    case 2:
                         dataPart = "co2";
                         dataDisplay.setText(String.valueOf((int)currentReading.getCo2()) + " ppm");
                         break;
-                    case 4:
+                    case 3:
                         dataPart = "light";
                         dataDisplay.setText(String.valueOf((int)currentReading.getLight()) + " lux");
                         break;
@@ -90,18 +114,17 @@ public class AppFragment extends Fragment {
             }
         });
 
-        //Reading currentReading = MainActivity.getInstance().getLatestReading();
-        Log.d("cacat", currentReading.toString());
-
-
-
-
-        //textView.setText(getArguments().getString("Message"));
     }
+
+
+
+
+
 
     public void refreshTemp()
     {
-        if (dataPart.matches("temp")) {
+        if (position == 0 && !dataDisplay.getText().toString().matches("Retrieving data...")) {
+
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             if (prefs.getBoolean("imperial", false) == false)
                 dataDisplay.setText((currentReading.getTemperature()) + " C" + "°");
@@ -113,5 +136,15 @@ public class AppFragment extends Fragment {
     public static AppFragment getInstance()
     {
         return instance;
+    }
+
+    public String getDataPart()
+    {
+        return dataPart;
+    }
+
+    public int getPosition()
+    {
+        return position;
     }
 }

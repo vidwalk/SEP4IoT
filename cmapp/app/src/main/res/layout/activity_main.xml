@@ -8,18 +8,31 @@
 
 
 
+
     <Button
         android:id="@+id/getReading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="92dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:stateListAnimator="@null"
         android:text="refresh"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        android:stateListAnimator="@null"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <Button
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/getReading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -65,15 +78,535 @@
         android:id="@+id/ButtonForAdmins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:stateListAnimator="@null"
-        android:text="open window"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/getReading"
+        android:text="use window"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintVertical_bias="0.59000003">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:textAlignment="center">
+
+                <TextView
+                    android:id="@+id/time0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="01:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="02:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="03:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="04:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="05:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="06:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="07:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="08:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="09:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="11:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="12:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="13:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="14:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="15:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="16:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="17:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="18:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="19:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="20:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time21"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="21:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display21"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="22:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@+id/time23"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="23:00"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/display23"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
 
 
     <View
@@ -91,6 +624,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/settingsFragmentPlaceholder">
+
     </FrameLayout>
 
 

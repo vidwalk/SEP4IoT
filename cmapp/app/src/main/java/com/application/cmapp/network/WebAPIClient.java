@@ -66,9 +66,6 @@ public class WebAPIClient {
 
             if (urlConnection.getResponseCode() == 200) {
 
-
-                Log.d("cacat", String.valueOf(urlConnection.getResponseCode()));
-                Log.d("cacat", String.valueOf(urlConnection.getResponseMessage()));
                 jsonResponse = "Success!";
 
             }

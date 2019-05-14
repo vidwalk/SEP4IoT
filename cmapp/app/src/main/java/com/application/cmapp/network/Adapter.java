@@ -18,7 +18,7 @@ public class Adapter {
     public Reading makeReading(String jsonString) throws JSONException {
 
 
-        reading = new Reading(0, 0, 0, 0, "");
+        reading = new Reading(0, 0, 0, 0, "00");
         try{
             latestReading = new JSONObject(jsonString);
             //JSONArray readings = root.getJSONArray(0);
@@ -40,11 +40,9 @@ public class Adapter {
 
     public ArrayList<Reading> makeMultipleReadings(String jsonString) throws JSONException {
         multipleLiveReadings = new ArrayList<Reading>();
-        multipleLiveReadings.add(new Reading(0, 0, 0, 0, ""));
-
+        multipleLiveReadings.add(new Reading(0, 0, 0, 0, "00"));
         try {
             root = new JSONArray(jsonString);
-            //Log.d("cacat", jsonString.toString());
 
             for (int i = 0; i < root.length();i++)
             {

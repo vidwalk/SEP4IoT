@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
@@ -43,7 +44,12 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstance)
     {
+
+        //Button is fucked, need to change manually
+        MainActivity.getInstance().date.setEnabled(false);
+
         setSettings = view.findViewById(R.id.setButton);
+
         imperial = view.findViewById(R.id.imperial);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -63,11 +69,9 @@ public class SettingsFragment extends Fragment {
                 Toast toast = Toast.makeText(getActivity(), "Settings updated!", Toast.LENGTH_SHORT);
                 toast.show();
 
-                AppFragment.getInstance().refreshTemp();
-
+                MainActivity.getInstance().date.setEnabled(true);
                 ((MainActivity) getActivity()).unFadeBackground();
                 getFragmentManager().beginTransaction().remove(SettingsFragment.this).commit();
-
 
             }
         });

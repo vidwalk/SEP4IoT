@@ -10,20 +10,27 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.application.cmapp.R;
+import com.application.cmapp.activities.fragments.AppFragment;
 import com.application.cmapp.activities.fragments.SettingsFragment;
 import com.application.cmapp.model.Reading;
 import com.application.cmapp.viewmodel.LogInViewModel;
@@ -36,18 +43,27 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    TextView temperature, deviceNo, sound, co2, humidity, datetime, date;
-    //Reading reading;
-    Button getReading, getReadings, openWindow, gotoLogin;
+    TextView time0, time1, time2, time3, time4, time5, time6, time7, time8, time9, time10, time11,
+            time12, time13, time14, time15, time16, time17, time18, time19, time20, time21, time22, time23,
+            display0, display1, display2, display3, display4, display5, display6, display7, display8,
+            display9, display10, display11, display12, display13, display14, display15, display16, display17,
+            display18, display19, display20, display21, display22, display23;
+
+    Button getReading;
+        public Button date;
+    int selectedYear, selectedDay, selectedMonth;
     Reading reading = new Reading(0, 0,0 ,0, "");
     ArrayList<Reading> readings = new ArrayList<Reading>();
     private View fadeBackground;
+    private TextView[] displays;
+    private TextView[] times;
 
-    TextView email;
     Button adminButton;
 
     private ViewPager vPager;
@@ -57,20 +73,106 @@ public class MainActivity extends AppCompatActivity {
     private LogInViewModel logInViewModel;
     private FrameLayout settingsFragmentPlaceholder;
     private static MainActivity instance;
+    private int position = 0;
+    private Calendar cal;
+    private final String apiProtocol = "http://";
+            private final String apiIp = "10.152.194.103";
+            private final String apiPort = ":8080";
+                    private final String apiReadingRequest = "/readings";
+                    private final String apiReadingsRequest = "/readings/"; //Need to add year-month-day at the end
+                    private final String apiWindowRequest = "/window";
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        //Quick connection no Async task for quick testing
-        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
-        //StrictMode.setThreadPolicy(policy);
+        time0 = findViewById(R.id.time0); time1 = findViewById(R.id.time1); time2 = findViewById(R.id.time2);
+        time3 = findViewById(R.id.time3); time4 = findViewById(R.id.time4); time5 = findViewById(R.id.time5);
+        time6 = findViewById(R.id.time6); time7 = findViewById(R.id.time7); time8 = findViewById(R.id.time8);
+        time9 = findViewById(R.id.time9); time10 = findViewById(R.id.time10); time11 = findViewById(R.id.time11);
+        time12 = findViewById(R.id.time12); time13 = findViewById(R.id.time13); time14 = findViewById(R.id.time14);
+        time15 = findViewById(R.id.time15); time16 = findViewById(R.id.time16); time17 = findViewById(R.id.time17);
+        time18 = findViewById(R.id.time18); time19 = findViewById(R.id.time19); time20 = findViewById(R.id.time20);
+        time21 = findViewById(R.id.time21); time22 = findViewById(R.id.time22); time23 = findViewById(R.id.time23);
+
+        times = new TextView[24];
+        times[0] = time0; times[1] = time1; times[2] = time2; times[3] = time3; times[4] = time4; times[5] = time5;
+        times[6] = time6; times[7] = time7; times[8] = time8; times[9] = time9; times[10] = time10; times[11] = time11;
+        times[12] = time12; times[13] = time13; times[14] = time14; times[15] = time15; times[16] = time16; times[17] = time17;
+        times[18] = time18; times[19] = time19; times[20] = time20; times[21] = time21; times[22] = time22; times[23] = time23;
+
+        display0 = findViewById(R.id.display0); display1 = findViewById(R.id.display1); display2 = findViewById(R.id.display2);
+        display3 = findViewById(R.id.display3); display4 = findViewById(R.id.display4); display5 = findViewById(R.id.display5);
+        display6 = findViewById(R.id.display6); display7 = findViewById(R.id.display7); display8 = findViewById(R.id.display8);
+        display9 = findViewById(R.id.display9); display10 = findViewById(R.id.display10); display11 = findViewById(R.id.display11);
+        display12 = findViewById(R.id.display12); display13 = findViewById(R.id.display13); display14 = findViewById(R.id.display14);
+        display15 = findViewById(R.id.display15); display16 = findViewById(R.id.display16); display17 = findViewById(R.id.display17);
+        display18 = findViewById(R.id.display18); display19 = findViewById(R.id.display19); display20 = findViewById(R.id.display20);
+        display21 = findViewById(R.id.display21); display22 = findViewById(R.id.display22); display23 = findViewById(R.id.display23);
+
+        displays = new TextView[24];
+        displays[0] = display0; displays[1] = display1; displays[2] = display2; displays[3] = display3; displays[4] = display4; displays[5] = display5;
+        displays[6] = display6; displays[7] = display7; displays[8] = display8; displays[9] = display9; displays[10] = display10; displays[11] = display11;
+        displays[12] = display12; displays[13] = display13; displays[14] = display14; displays[15] = display15; displays[16] = display16; displays[17] = display17;
+        displays[18] = display18; displays[19] = display19; displays[20] = display20; displays[21] = display21; displays[22] = display22; displays[23] = display23;
+
 
         instance = this;
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                updateReadingsUi(position);
+            }
+        };
+
+        prefs.registerOnSharedPreferenceChangeListener(spChanged);
+
+
+        date = findViewById(R.id.date);
+
+        viewModel = ViewModelProviders.of(this).get(ReadingViewModel.class);
+        logInViewModel = ViewModelProviders.of(this).get(LogInViewModel.class);
+
+        cal = Calendar.getInstance();
+        date.setText(cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR));
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                selectedDay = dayOfMonth;
+                selectedYear = year;
+                selectedMonth = month;
+                date.setText(month+"/"+dayOfMonth+"/"+year);
+
+                try {
+                    viewModel.getReadings(apiProtocol+apiIp+apiPort+apiReadingsRequest+selectedYear+"-"+selectedMonth+"-"+selectedDay);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+       // date.setClickable(true);
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
 
         fadeBackground = findViewById(R.id.fadeBackground);
 
@@ -80,6 +182,24 @@ public class MainActivity extends AppCompatActivity {
         vPager = findViewById(R.id.viewPager);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         vPager.setAdapter(adapter);
+        vPager.getAdapter();
+        vPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                MainActivity.getInstance().position = position;
+            updateReadingsUi(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         settingsFragmentPlaceholder = findViewById(R.id.settingsFragmentPlaceholder);
 
@@ -91,33 +211,18 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(vPager);
 
-        /*
-        temperature = findViewById(R.id.temperature);
-        deviceNo = findViewById(R.id.devicenumber);
-        sound = findViewById(R.id.sound);
-        humidity = findViewById(R.id.humidity);
-        co2 = findViewById(R.id.co2);
-        datetime = findViewById(R.id.datetime);
-        date = findViewById(R.id.date);
-
-        getReading = findViewById(R.id.getReading);
-        getReadings = findViewById(R.id.getReadings);
-        openWindow = findViewById(R.id.openWindow);
-
-*/
-//        temperature.setText("Temperature: ");
 
         getReading = findViewById(R.id.getReading);
 
 
-        viewModel = ViewModelProviders.of(this).get(ReadingViewModel.class);
-        logInViewModel = ViewModelProviders.of(this).get(LogInViewModel.class);
 
 
-        //Get latest reading
+        //Get latest reading and readings
         try {
 
-            viewModel.getReading("http://192.168.185.213:8080/readings");
+            viewModel.getReading(apiProtocol+apiIp+apiPort+apiReadingRequest);
+            //Readings for today
+            viewModel.getReadings(apiProtocol+apiIp+apiPort+apiReadingsRequest+cal.get(Calendar.YEAR)+"-"+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.DAY_OF_MONTH));
         } catch (IOException ex){
             ex.printStackTrace();
         }
@@ -125,31 +230,30 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //Most Recent Reading refresh button
+        //Open Window
+        adminButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    //Open Window
+                    viewModel.sendOpenWindow(apiProtocol+apiIp+apiPort+apiWindowRequest);
+                }
+                catch (IOException ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        //Refresh button listener
         getReading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    //Get reading
-                    //viewModel.sendOpenWindow("http://10.152.194.18:8080/window");
-                  //  Log.d("cacat", "pisat");
-                  //
-                    viewModel.getReading("http://192.168.185.213:8080/readings");
-                }
-                catch (IOException ex){
-                    ex.printStackTrace();
-                }
-            }
-        });
-/*
-        //Multiple Readings
-        getReadings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
                 try {
                     //Get reading
-                    viewModel.getReadings("http://10.152.194.100:8080/readings/"+date.getText());
+                    viewModel.getReading(apiProtocol+apiIp+apiPort+apiReadingRequest);
+                    viewModel.getReadings(apiProtocol+apiIp+apiPort+apiReadingsRequest+selectedYear+"-"+selectedMonth+"-"+selectedDay);
+
                 }
                 catch (IOException ex){
                     ex.printStackTrace();
@@ -157,21 +261,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Open Window
-        openWindow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                try {
-                    viewModel.sendOpenWindow("http://10.152.222.116:8080/window");
-                }
-                catch (IOException ex){
-                    ex.printStackTrace();
-                }
-            }
-        });
 
-*/
+
         //Make this activity observe the most recent reading mutableData
         MutableLiveData<Reading> readingLiveData = viewModel.getReadingLiveData();
 
@@ -217,7 +308,6 @@ public class MainActivity extends AppCompatActivity {
         {
             public void onChanged(String s)
             {
-                Log.d("cacat", s);
                 if (s.matches("loggedout")) {
                     adminButton.setVisibility(View.GONE);
                 }
@@ -282,6 +372,56 @@ public class MainActivity extends AppCompatActivity {
     public void updateCurrentReadings(ArrayList<Reading> readings)
     {
         this.readings = readings;
+
+        updateReadingsUi(position);
+    }
+
+    public void updateReadingsUi(int position)
+    {
+        //Log.d("nik", String.valueOf(position));
+        switch (position) {
+            case 0:
+                for (int i = 0; i < displays.length; i++) {
+                    if (i < readings.size()) {
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        if (prefs.getBoolean("imperial", false) == false)
+                            displays[i].setText(String.valueOf(readings.get(i).getTemperature()+" C"+"°"));
+                        else
+                            displays[i].setText(String.valueOf((readings.get(i).getTemperature() * 9 / 5) + 32) + " F" + "°");
+                        //displays[i].setText(String.valueOf(readings.get(i).getTemperature()));
+                    }
+                    else
+                        displays[i].setText("N/A");
+                }
+                break;
+            case 1:
+                for (int i = 0; i < displays.length; i++) {
+                    if (i < readings.size())
+                        displays[i].setText(String.valueOf(readings.get(i).getHumidity()+" %"));
+                    else
+                        displays[i].setText("N/A");
+                }
+                break;
+            case 2:
+                for (int i = 0; i < displays.length; i++) {
+                    if (i < readings.size())
+                        displays[i].setText(String.valueOf((int)readings.get(i).getCo2()+" ppm"));
+                    else
+                        displays[i].setText("N/A");
+                }
+                break;
+            case 3:
+                for (int i = 0; i < displays.length; i++) {
+                    if (i < readings.size())
+                        displays[i].setText(String.valueOf((int)readings.get(i).getLight()+" lux"));
+                    else
+                        displays[i].setText("N/A");
+                }
+                break;
+            default:
+                break;
+            }
+
     }
 
 
@@ -321,6 +461,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.settingsFragmentPlaceholder);
         if (fragment instanceof SettingsFragment)
         {
+            date.setEnabled(true);
             unFadeBackground();
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
