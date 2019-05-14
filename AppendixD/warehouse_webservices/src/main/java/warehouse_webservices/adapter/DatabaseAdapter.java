@@ -72,21 +72,25 @@ public class DatabaseAdapter implements Adapter
            Statement statement = connection.createStatement();) {
 
                  String selectSql = 
-                         "SELECT Time30, convert(date, CalendarDate) as [Date], CO2Value, HumidityValue, TemperatureValue, LightValue "
+                         "SELECT Hour30, " 
+                       + "AVG(CO2Value) as AverageCO2, " 
+                       + "AVG(HumidityValue) as AverageHumidity, " 
+                       + "AVG(TemperatureValue) as AverageTemperature, " 
+                       + "AVG(LightValue) as AverageLight "
                        + "FROM climatizerDimensional.dbo.F_Reading "
                        + "JOIN D_Date ON D_Date.DateKey = F_Reading.DateKey "
                        + "JOIN D_Time ON D_Time.TimeKey = F_Reading.TimeKey "
-                       + "WHERE convert(date, [CalendarDate]) BETWEEN '" + something + "' AND '" + something + "' ORDER BY Time30 desc";
+                       + "WHERE convert(date, [CalendarDate]) BETWEEN '" + something + "' AND '" + something + "' GROUP BY Hour30";
                  
                  ResultSet resultSet = statement.executeQuery(selectSql);
                  Reading reading;
                  while (resultSet.next()) {
                     reading = new Reading();
-                    reading.setDatetime(resultSet.getString(1) + " " + resultSet.getString(2));
-                    reading.setCo2(Float.parseFloat(resultSet.getString(3)));
-                    reading.setHumidity(Float.parseFloat(resultSet.getString(4)));                     
-                    reading.setTemperature(Float.parseFloat(resultSet.getString(5)));                 
-                    reading.setLight(Float.parseFloat(resultSet.getString(6)));
+                    reading.setDatetime(resultSet.getString(1));
+                    reading.setCo2(Float.parseFloat(resultSet.getString(2)));
+                    reading.setHumidity(Float.parseFloat(resultSet.getString(3)));                     
+                    reading.setTemperature(Float.parseFloat(resultSet.getString(4)));                 
+                    reading.setLight(Float.parseFloat(resultSet.getString(5)));
                     readings.add(reading);
                  }
                  
