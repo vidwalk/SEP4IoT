@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "89327807921",
+    "firebase_url": "https://sep4iot.firebaseio.com",
+    "project_id": "sep4iot",
+    "storage_bucket": "sep4iot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89327807921:android:d12291bde2b6c92e",
+        "android_client_info": {
+          "package_name": "com.application.cmapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89327807921-g7u8dlcbsp133191efbu66gndebir0jc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.application.cmapp",
+            "certificate_hash": "03825d5c7d07671e54bf353c55169919dbe26d66"
+          }
+        },
+        {
+          "client_id": "89327807921-jrastfuajuc3mq8gj9hdbs28bs482hre.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSb-JuLS6IQXsgnsx_FsYls5jcxcpFUIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "89327807921-jrastfuajuc3mq8gj9hdbs28bs482hre.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

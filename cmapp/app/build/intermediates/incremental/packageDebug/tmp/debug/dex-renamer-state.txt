@@ -1,0 +1,7 @@
+#Tue May 14 17:03:13 CEST 2019
+base.0=C\:\\Users\\User\\eclipse-workspace\\Sem4\\SEP4_Final_REPO\\SEP4IoT\\cmapp\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=C\:\\Users\\User\\eclipse-workspace\\Sem4\\SEP4_Final_REPO\\SEP4IoT\\cmapp\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out
