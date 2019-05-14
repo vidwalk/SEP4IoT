@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+
+import org.springframework.scheduling.annotation.Async;
+
 import warehouse_webservices.reading.Reading;
 
 public class DatabaseAdapter implements Adapter
@@ -22,8 +26,8 @@ public class DatabaseAdapter implements Adapter
             + "trustServerCertificate=false;"
             + "loginTimeout=30;");
    }
-   
-   public Reading getAll() throws SQLException {
+   @Async("threadPoolTaskExecutor")
+   public CompletableFuture<Reading> getLast() throws SQLException {
       
       Reading reading = new Reading();
       
@@ -50,7 +54,7 @@ public class DatabaseAdapter implements Adapter
                      
                   }
                   
-                  return reading;
+                  return CompletableFuture.completedFuture(reading);
                   
       }catch(SQLException e) {
          
@@ -58,10 +62,10 @@ public class DatabaseAdapter implements Adapter
          
       }
       
-      return reading;
+      return CompletableFuture.completedFuture(reading);
   }
-   
-  public ArrayList<Reading> getReading(String something) {
+  @Async("threadPoolTaskExecutor")
+  public CompletableFuture<ArrayList<Reading>> getAll(String something) {
      ArrayList<Reading> readings = new ArrayList<>();
      
      try (Connection connection = DriverManager.getConnection(connectionUrl);
@@ -86,14 +90,14 @@ public class DatabaseAdapter implements Adapter
                     readings.add(reading);
                  }
                  
-                 return readings;
+                 return CompletableFuture.completedFuture(readings);
                  
      }catch(SQLException e) {
         
         e.printStackTrace();
         
      }
-     return readings;
+     return CompletableFuture.completedFuture(readings);
   }
 
 }
