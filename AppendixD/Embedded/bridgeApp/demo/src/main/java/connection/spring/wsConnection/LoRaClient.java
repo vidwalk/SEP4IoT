@@ -1,16 +1,30 @@
+package connection.spring.wsConnection;
+
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
+@Component
 public class LoRaClient implements WebSocket.Listener{
 
     private WebSocket webSocket;
     private MongoDBHelper dbHelper;
+    private String openWindowMessage;
 
+    @Autowired
     public LoRaClient(MongoDBHelper helper) {
+        openWindowMessage = new JSONObject()
+                .put("cmd", "tx")
+                .put("EUI", "11dc3bc663ea64c5")
+                .put("port", 1)
+                .put("data", "42").toString();
         dbHelper = helper;
         HttpClient client = HttpClient.newHttpClient();
         CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
@@ -24,7 +38,6 @@ public class LoRaClient implements WebSocket.Listener{
         System.out.println("WebSocket Listener has been opened for requests.");
         this.webSocket = webSocket;
     }
-
     //onError()
     public void onError​(WebSocket webSocket, Throwable error) {
         System.out.println("A " + error.getCause() + " exception was thrown.");
@@ -55,14 +68,21 @@ public class LoRaClient implements WebSocket.Listener{
     public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
         System.out.println("A message was received:");
         System.out.println(data);
-        webSocket.request(1);
-        String cleanMessage = UplinkMessageFormatter.receiveMessage(data);
-        dbHelper.send(cleanMessage);
+        JSONObject received = new JSONObject(data);
+        String cmd = received.getString("cmd");
+        if(!cmd.equals("tx")) {
+            webSocket.request(1);
+            String cleanMessage = UplinkMessageFormatter.receiveMessage(data);
+            //dbHelper.send(cleanMessage);
+        } else {
+            System.out.println("The message received is an echo from LoRa.");
+        }
+        
         return null; // new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
     };
-
     //sendText
     public CompletionStage<WebSocket> sendText() {
-        return webSocket.sendText("OW", true);
+        System.out.println("A message is sent to LoRaWan");
+        return webSocket.sendText(openWindowMessage, true);
     };
 }
