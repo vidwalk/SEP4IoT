@@ -141,17 +141,18 @@ public class MainActivity extends AppCompatActivity {
         logInViewModel = ViewModelProviders.of(this).get(LogInViewModel.class);
 
         cal = Calendar.getInstance();
-        date.setText(cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR));
+        date.setText(cal.get(Calendar.MONTH)+1+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.YEAR));
 
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 selectedDay = dayOfMonth;
                 selectedYear = year;
-                selectedMonth = month;
-                date.setText(month+"/"+dayOfMonth+"/"+year);
+                selectedMonth = month+1;
+                date.setText(selectedMonth+"/"+selectedDay+"/"+selectedYear);
 
                 try {
+                   // Log.d("shit", apiProtocol+apiIp+apiPort+apiReadingsRequest+selectedYear+"-"+selectedMonth+"-"+selectedDay);
                     viewModel.getReadings(apiProtocol+apiIp+apiPort+apiReadingsRequest+selectedYear+"-"+selectedMonth+"-"+selectedDay);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -222,7 +223,11 @@ public class MainActivity extends AppCompatActivity {
 
             viewModel.getReading(apiProtocol+apiIp+apiPort+apiReadingRequest);
             //Readings for today
-            viewModel.getReadings(apiProtocol+apiIp+apiPort+apiReadingsRequest+cal.get(Calendar.YEAR)+"-"+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.DAY_OF_MONTH));
+            selectedDay = cal.get(Calendar.DAY_OF_MONTH);
+            selectedMonth = cal.get(Calendar.MONTH)+1;
+            selectedYear = cal.get(Calendar.YEAR);
+            viewModel.getReadings(apiProtocol+apiIp+apiPort+apiReadingsRequest+selectedYear+"-"+selectedMonth+"-"+selectedDay);
+            Log.d("shit", String.valueOf(selectedMonth));
         } catch (IOException ex){
             ex.printStackTrace();
         }
@@ -378,42 +383,76 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateReadingsUi(int position)
     {
+        int j;
+        Log.d("nikita", readings.toString());
         //Log.d("nik", String.valueOf(position));
         switch (position) {
+
             case 0:
+                j=0;
+
+                    for (int i = 0; i < displays.length; i++) {
+                        if (i == Integer.parseInt(readings.get(j).getDateTime())) {
+
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                            if (prefs.getBoolean("imperial", false) == false)
+                                displays[i].setText(String.valueOf((int) readings.get(j).getTemperature() + " C" + "°"));
+                            else
+                                displays[i].setText(String.valueOf((int) (readings.get(j).getTemperature() * 9 / 5) + 32) + " F" + "°");
+
+                            if (j < readings.size() - 1)
+                                j++;
+
+                            if (readings.get(0).getTemperature() == 666)
+                                displays[0].setText("N/A");
+                        } else
+                            displays[i].setText("N/A");
+                    }
+                break;
+            case 1:
+                j = 0;
                 for (int i = 0; i < displays.length; i++) {
-                    if (i < readings.size()) {
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                        if (prefs.getBoolean("imperial", false) == false)
-                            displays[i].setText(String.valueOf(readings.get(i).getTemperature()+" C"+"°"));
-                        else
-                            displays[i].setText(String.valueOf((readings.get(i).getTemperature() * 9 / 5) + 32) + " F" + "°");
-                        //displays[i].setText(String.valueOf(readings.get(i).getTemperature()));
+                    if (i == Integer.parseInt(readings.get(j).getDateTime())) {
+                        displays[i].setText(String.valueOf((int) readings.get(j).getHumidity() + " %"));
+                        if (j < readings.size()-1)
+                    j++;
+
+
+                        if (readings.get(0).getTemperature() == 666)
+                            displays[0].setText("N/A");
                     }
                     else
                         displays[i].setText("N/A");
                 }
                 break;
-            case 1:
-                for (int i = 0; i < displays.length; i++) {
-                    if (i < readings.size())
-                        displays[i].setText(String.valueOf(readings.get(i).getHumidity()+" %"));
-                    else
-                        displays[i].setText("N/A");
-                }
-                break;
             case 2:
+                j = 0;
                 for (int i = 0; i < displays.length; i++) {
-                    if (i < readings.size())
-                        displays[i].setText(String.valueOf((int)readings.get(i).getCo2()+" ppm"));
+                    if (i == Integer.parseInt(readings.get(j).getDateTime())) {
+                        displays[i].setText(String.valueOf((int) readings.get(j).getCo2() + " ppm"));
+                        if (j < readings.size()-1)
+                        j++;
+
+
+                        if (readings.get(0).getTemperature() == 666)
+                            displays[0].setText("N/A");
+                    }
                     else
                         displays[i].setText("N/A");
                 }
                 break;
             case 3:
+                j = 0;
                 for (int i = 0; i < displays.length; i++) {
-                    if (i < readings.size())
-                        displays[i].setText(String.valueOf((int)readings.get(i).getLight()+" lux"));
+                    if (i == Integer.parseInt(readings.get(j).getDateTime())) {
+                        displays[i].setText(String.valueOf((int) readings.get(j).getLight() + " lux"));
+                        if (j < readings.size()-1)
+                        j++;
+
+
+                        if (readings.get(0).getTemperature() == 666)
+                            displays[0].setText("N/A");
+                    }
                     else
                         displays[i].setText("N/A");
                 }
@@ -471,6 +510,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+public int getPosition()
+{
+    return position;
+}
 
 }

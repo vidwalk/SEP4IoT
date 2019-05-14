@@ -123,7 +123,7 @@ public class AppFragment extends Fragment {
 
     public void refreshTemp()
     {
-        if (position == 0 && !dataDisplay.getText().toString().matches("Retrieving data...")) {
+        if (MainActivity.getInstance().getPosition() == 0 && !dataDisplay.getText().toString().matches("Retrieving data...")) {
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             if (prefs.getBoolean("imperial", false) == false)

@@ -70,6 +70,10 @@ public class SettingsFragment extends Fragment {
                 toast.show();
 
                 MainActivity.getInstance().date.setEnabled(true);
+
+                if (MainActivity.getInstance().getPosition() == 0)
+                MainActivity.getInstance().updateReadingsUi(0);
+
                 ((MainActivity) getActivity()).unFadeBackground();
                 getFragmentManager().beginTransaction().remove(SettingsFragment.this).commit();
 
