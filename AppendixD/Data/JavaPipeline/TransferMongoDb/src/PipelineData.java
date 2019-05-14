@@ -62,10 +62,10 @@ public class PipelineData extends TimerTask {
 			while (it.hasNext()) {
 				Document document = (Document) it.next();
 
-				double temperature = (double) document.get("temperature");
-				double humidity = (double) document.get("humidity");
-				double CO2 = (double) document.get("CO2");
-				double light = (double) document.get("light");
+				double temperature = Double.parseDouble(document.get("temperature").toString());
+				double humidity = Double.parseDouble(document.get("humidity").toString()) ;
+				Integer CO2 = (Integer) document.get("CO2");
+				Integer light = (Integer) document.get("light");
 				String device = (String) document.get("device");
 				
 				// Remove two hours from the time
@@ -104,6 +104,7 @@ public class PipelineData extends TimerTask {
 		// running timer task as daemon thread
 		Timer timer = new Timer(true);
 		// Scheduled at 1 hour
+		//timer.scheduleAtFixedRate(timerTask, 0, 60 * 60 * 1000);
 		timer.scheduleAtFixedRate(timerTask, 0, 60 * 60 * 1000);
 		System.out.println("TimerTask started");
 		// cancel after 24 hours = (60000 * 60) * 24
