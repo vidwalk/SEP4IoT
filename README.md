@@ -4,7 +4,7 @@ Appendix A: Project Description
 
 Appendix B: Analysis
 
-Appendix C: Design
+Appendix C: Design & Implementation
 
 Appendix D: The Code
 
