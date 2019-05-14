@@ -34,6 +34,7 @@ public class ReadingController
       @RequestMapping("/readings/{date}")
       public CompletableFuture<String> GetReading(@PathVariable String date) throws SQLException, InterruptedException, ExecutionException {
          readingService.getAll(date);
+         System.out.println(date);
          return CompletableFuture.completedFuture(response);
       }
       
