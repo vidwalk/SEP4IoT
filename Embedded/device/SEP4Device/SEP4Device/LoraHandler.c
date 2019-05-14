@@ -90,7 +90,7 @@ void _vTaskInitalizeLora(void* pvParameters) {
 			led_short_puls(led_ST4);  // OPTIONAL
 			printf("Upload Message >%s<\n", lora_driver_map_return_code_to_text(lora_driver_sent_upload_message(false, &_uplink_payload)));
 			xSemaphoreGive(xSemaphore);
-			vTaskDelay(4000);
+			vTaskDelay(10000/); // around 3min
 			_writeFlag = true;
 			printf("------  Change flag to true ------ \n");
 		} else {
