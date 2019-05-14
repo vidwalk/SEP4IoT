@@ -8,11 +8,13 @@ Appendix C: Design & Implementation
 
 Appendix D: The Code
 
+Appendix E: Testing
+
 # Main Purpose
 
 Conceive, design and implement a software solution including hardware sensors, an android
 
--based user interface and a persistent multiuser backend infrastructure. The solution must contain self-constructed electronics, and make use of the Java, C# &amp; C programming languages
+-based user interface and a persistent multiuser backend infrastructure. The solution must contain self-constructed electronics, and make use of the Java and C programming languages
 
 ![alt text](https://i.imgur.com/lCvtd61.png)
 
