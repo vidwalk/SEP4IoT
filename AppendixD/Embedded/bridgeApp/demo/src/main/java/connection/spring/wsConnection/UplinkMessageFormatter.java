@@ -1,5 +1,6 @@
 package connection.spring.wsConnection;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,12 @@ public class UplinkMessageFormatter {
         JSONObject inJson = new JSONObject(incomingMessage);
 
         //Getting the payload
-        incomingMessage = inJson.getString("data");
+        try {
+            incomingMessage = inJson.getString("data");
+        } catch (JSONException e) {
+            System.out.println("No data field was found.");
+            return null;
+        }
         String currentData;
         //Dividing the payload to separate data and storing in the correct variables
         for(int i = 0; i <= 12; i=i+4) {
@@ -46,17 +52,13 @@ public class UplinkMessageFormatter {
             }
         }
 
-        //Getting current date and time
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-
         //Creating a Json that will be sent to MongoDB
         String outJsonString = new JSONObject()
                 .put("temperature", temperature)
                 .put("humidity", humidity)
                 .put("CO2", co2)
                 .put("light", light)
-                .put("date", now)
+                .put("date", "")
                 .put("device", EUI).toString();
 
         System.out.println(outJsonString);
