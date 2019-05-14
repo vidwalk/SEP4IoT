@@ -34,7 +34,7 @@ int main(void)
 	initialize_temper_hum(Temperature_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
 	initialize_co2(CO2_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
 	initialize_light(Light_TASK_PRIORITY, &xSendingQueue, &_writeFlag);
-	//initialize_motor(3);
+	initialize_motor(3);
 	vTaskStartScheduler();
     while (1) 
     {
