@@ -3,7 +3,6 @@ package warehouse_webservices.reading;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
