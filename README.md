@@ -1,7 +1,11 @@
 # Appendices
+
 Appendix A: Project Description
+
 Appendix B: Analysis
+
 Appendix C: Design
+
 Appendix D: The Code
 
 # Main Purpose
