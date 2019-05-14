@@ -68,16 +68,18 @@ public class LoRaClient implements WebSocket.Listener{
     public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) {
         System.out.println("A message was received:");
         System.out.println(data);
-        JSONObject received = new JSONObject(data);
+        JSONObject received = new JSONObject(data.toString());
         String cmd = received.getString("cmd");
-        if(!cmd.equals("tx")) {
             webSocket.request(1);
+        if(cmd.equals("rx")) {
             String cleanMessage = UplinkMessageFormatter.receiveMessage(data);
             if(cleanMessage!= null) {
                 dbHelper.send(cleanMessage);
+            } else {
+                System.out.println("The message wasn't converted properly.");
             }
         } else {
-            System.out.println("The message received is an echo from LoRa.");
+            System.out.println("The message received is not an uplink message.");
         }
         
         return null; // new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
