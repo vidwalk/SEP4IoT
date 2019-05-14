@@ -73,7 +73,9 @@ public class LoRaClient implements WebSocket.Listener{
         if(!cmd.equals("tx")) {
             webSocket.request(1);
             String cleanMessage = UplinkMessageFormatter.receiveMessage(data);
-            //dbHelper.send(cleanMessage);
+            if(cleanMessage!= null) {
+                dbHelper.send(cleanMessage);
+            }
         } else {
             System.out.println("The message received is an echo from LoRa.");
         }

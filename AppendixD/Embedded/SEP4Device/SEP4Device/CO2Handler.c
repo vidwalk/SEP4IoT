@@ -19,11 +19,12 @@ bool _writeFlag;
 struct reading measurmentCO2;
 
 void initialize_co2(char CO2_TASK_PRIORITY, void* ptrQueue, void* writeFlag) {
-	xSendingQueue = *(QueueHandle_t*)ptrQueue; // initialize the sending queue variable with the same queue from the main method
+	xSendingQueue = *(QueueHandle_t*)ptrQueue;
+	 // initialize the sending queue variable with the same queue from the main method
 	_writeFlag = *(bool*)writeFlag;
 	mh_z19_create(ser_USART3, my_co2_call_back);
-	xTaskCreate(vTaskGetCO2, "Task get CO2", configMINIMAL_STACK_SIZE+200, NULL,CO2_TASK_PRIORITY, NULL);
-	
+	xTaskCreate(vTaskGetCO2, "Task get CO2", configMINIMAL_STACK_SIZE+200,
+	 NULL,CO2_TASK_PRIORITY, NULL);
 }
 
 void my_co2_call_back(uint16_t ppm)
